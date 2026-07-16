@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: orders.length,
-                    separatorBuilder: (_, __) => SizedBox(height: 18.h),
+                    separatorBuilder: (_, _) => SizedBox(height: 18.h),
                     itemBuilder: (_, index) {
                       return _buildOrderCard(orders[index]);
                     },
@@ -334,12 +335,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: companies.length,
-        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
         itemBuilder: (_, index) {
           final selected = selectedCompany == index;
 
           return GestureDetector(
             onTap: () {
+              AppHaptics.tap();
               setState(() {
                 selectedCompany = index;
               });

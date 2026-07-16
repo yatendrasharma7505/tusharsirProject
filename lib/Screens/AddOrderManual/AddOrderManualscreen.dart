@@ -7,6 +7,7 @@ import '../../Utils/app_colors.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/custom_text.dart';
 import '../../Widgets/custom_text_field.dart';
+import '../../Utils/app_haptics.dart';
 
 class AddOrderManualscreen extends StatefulWidget {
   const AddOrderManualscreen({super.key});
@@ -86,6 +87,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                   ),
                    title: CustomText(text: 'Take a photo'),
                   onTap: () {
+                    AppHaptics.tap();
                     Navigator.pop(context);
                     _pickImage(ImageSource.camera);
                   },
@@ -97,6 +99,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                   ),
                    title: CustomText(text: 'Choose from gallery'),
                   onTap: () {
+                    AppHaptics.tap();
                     Navigator.pop(context);
                     _pickImage(ImageSource.gallery);
                   },
@@ -109,6 +112,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                     ),
                     title: CustomText(text: 'Remove photo', color: AppColors.logoutRed),
                     onTap: () {
+                      AppHaptics.tap();
                       Navigator.pop(context);
                       setState(() => _productPhoto = null);
                     },
@@ -251,7 +255,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                     label: 'Save order',
                     leadingIcon: Icons.save_outlined,
                     enabled: _isFormValid,
-                    onPressed: () => Navigator.of(context).maybePop(),
+                    onPressed: () { AppHaptics.tap(); Navigator.of(context).maybePop(); },
                   ),
                 ],
               ),
@@ -266,7 +270,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.of(context).maybePop(),
+          onTap: () { AppHaptics.tap(); Navigator.of(context).maybePop(); },
           child: CircleAvatar(
             radius: 20.r,
             backgroundColor: AppColors.fieldFill,
@@ -288,7 +292,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
   Widget _buildPhotoUpload() {
     if (_productPhoto != null) {
       return GestureDetector(
-        onTap: _showImageSourceSheet,
+        onTap: () { AppHaptics.tap(); _showImageSourceSheet(); },
         child: Stack(
           children: [
             ClipRRect(
@@ -319,7 +323,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
     }
 
     return GestureDetector(
-      onTap: _showImageSourceSheet,
+      onTap: () { AppHaptics.tap(); _showImageSourceSheet(); },
       child: CustomPaint(
         painter: _DashedBorderPainter(
           color: AppColors.borderGrey,
@@ -373,7 +377,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
             label: 'Normal',
             icon: null,
             selected: !_isUrgent,
-            onTap: () => setState(() => _isUrgent = false),
+            onTap: () { AppHaptics.tap(); setState(() => _isUrgent = false); },
           ),
         ),
         SizedBox(width: 12.w),
@@ -382,7 +386,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
             label: 'Urgent',
             icon: Icons.local_fire_department,
             selected: _isUrgent,
-            onTap: () => setState(() => _isUrgent = true),
+            onTap: () { AppHaptics.tap(); setState(() => _isUrgent = true); },
           ),
         ),
       ],
@@ -396,7 +400,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () { AppHaptics.tap(); onTap(); },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 14.h),
         decoration: BoxDecoration(

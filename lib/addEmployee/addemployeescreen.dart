@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
@@ -100,7 +101,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: companies.length,
-                    separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                    separatorBuilder: (_, _) => SizedBox(height: 16.h),
                     itemBuilder: (context, index) {
                       return _buildCompanyCard(index);
                     },
@@ -138,6 +139,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           ),
         ),
         onPressed: () {
+          AppHaptics.tap();
           // Create Employee API
         },
         icon: Icon(Icons.person_add_alt_1, size: 22.sp),
@@ -153,6 +155,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(24.r),
       onTap: () {
+        AppHaptics.tap();
         setState(() {
           selectedCompany = index;
         });
@@ -215,7 +218,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () { AppHaptics.tap(); Navigator.pop(context); },
           child: CircleAvatar(
             radius: 22.r,
             backgroundColor: AppColors.fieldFill,

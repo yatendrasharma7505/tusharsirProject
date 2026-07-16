@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class Profilescreen extends StatefulWidget {
@@ -250,7 +251,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     icon: Icons.person_outline,
                     label: 'Employee',
                     selected: _isEmployeeView,
-                    onTap: () => setState(() => _isEmployeeView = true),
+                    onTap: () { AppHaptics.tap(); setState(() => _isEmployeeView = true); },
                   ),
                 ),
                 Expanded(
@@ -258,7 +259,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                     icon: Icons.emoji_events_outlined,
                     label: 'Admin',
                     selected: !_isEmployeeView,
-                    onTap: () => setState(() => _isEmployeeView = false),
+                    onTap: () { AppHaptics.tap(); setState(() => _isEmployeeView = false); },
                   ),
                 ),
               ],
@@ -276,7 +277,7 @@ class _ProfilescreenState extends State<Profilescreen> {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () { AppHaptics.tap(); onTap(); },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
@@ -312,7 +313,7 @@ class _ProfilescreenState extends State<Profilescreen> {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: () { AppHaptics.tap(); },
         style: OutlinedButton.styleFrom(
           backgroundColor: AppColors.card,
           padding: EdgeInsets.symmetric(vertical: 16.h),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class _NotificationItem {
@@ -102,7 +103,7 @@ class Notificationscreen extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.of(context).maybePop(),
+          onTap: () { AppHaptics.tap(); Navigator.of(context).maybePop(); },
           child: CircleAvatar(
             radius: 20.r,
             backgroundColor: AppColors.fieldFill,

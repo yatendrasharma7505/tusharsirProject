@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../Utils/app_haptics.dart';
 import '../Widgets/custom_text.dart';
 
 class CustomerDatabaseScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _CustomerDatabaseScreenState extends State<CustomerDatabaseScreen> {
               child: ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 itemCount: customers.length,
-                separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                separatorBuilder: (_, _) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) {
                   return _buildCustomerCard(customers[index]);
                 },
@@ -97,7 +98,7 @@ class _CustomerDatabaseScreenState extends State<CustomerDatabaseScreen> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () { AppHaptics.tap(); Navigator.pop(context); },
           child: CircleAvatar(
             radius: 18.r,
             backgroundColor: AppColors.fieldFill,
@@ -134,7 +135,7 @@ class _CustomerDatabaseScreenState extends State<CustomerDatabaseScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(18.r),
       onTap: () {
-        // TODO: Navigate to customer details
+        AppHaptics.tap();
       },
       child: Container(
         padding: EdgeInsets.all(14.r),
@@ -143,6 +144,7 @@ class _CustomerDatabaseScreenState extends State<CustomerDatabaseScreen> {
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(.04),
               blurRadius: 12,
               offset: const Offset(0, 4),

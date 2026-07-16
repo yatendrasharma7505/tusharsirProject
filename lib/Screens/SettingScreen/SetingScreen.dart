@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class Setingscreen extends StatefulWidget {
@@ -162,6 +163,7 @@ class _SetingscreenState extends State<Setingscreen> {
             title: "Customer database",
             subtitle: "7 customers",
             onTap: () {
+              AppHaptics.tap();
               Navigator.pushNamed(context, "/customerDatabaseScreen");
             },
           ),
@@ -172,7 +174,7 @@ class _SetingscreenState extends State<Setingscreen> {
             icon: Icons.notifications_none,
             title: "Notifications",
             subtitle: "2 unread",
-            onTap: () {},
+            onTap: () { AppHaptics.tap(); },
           ),
 
           Divider(height: 1),
@@ -227,7 +229,7 @@ class _SetingscreenState extends State<Setingscreen> {
     required VoidCallback onTap,
   }) {
     return InkWell(
-      onTap: onTap,
+      onTap: () { AppHaptics.tap(); onTap(); },
       borderRadius: BorderRadius.circular(14.r),
       child: Padding(
         padding: EdgeInsets.all(14.r),
@@ -300,6 +302,7 @@ class _SetingscreenState extends State<Setingscreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      AppHaptics.tap();
                       setState(() {
                         adminMode = false;
                       });
@@ -325,6 +328,7 @@ class _SetingscreenState extends State<Setingscreen> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      AppHaptics.tap();
                       setState(() {
                         adminMode = true;
                       });

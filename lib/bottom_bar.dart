@@ -5,11 +5,12 @@ import 'Screens/Order/Orderscreen.dart';
 import 'Screens/Profile/Profilescreen.dart';
 import 'Screens/Rank/Rankscreen.dart';
 import 'Utils/app_colors.dart';
+import 'Utils/app_haptics.dart';
 import 'Widgets/custom_text.dart';
 
 class BottomBar extends StatefulWidget {
   final int index;
-  BottomBar({super.key, this.index = 0});
+  const BottomBar({super.key, this.index = 0});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -77,8 +78,10 @@ class _BottomBarState extends State<BottomBar> {
               ),
             ),
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, "/addOrderManualscreen"),
+              onTap: () {
+                AppHaptics.tap();
+                Navigator.pushNamed(context, "/addOrderManualscreen");
+              },
               child: _buildAddButton(),
             ),
             Expanded(
@@ -111,7 +114,10 @@ class _BottomBarState extends State<BottomBar> {
   }) {
     final bool selected = _selectedIndex == index;
     return InkWell(
-      onTap: () => _onItemTapped(index),
+      onTap: () {
+        AppHaptics.tap();
+        _onItemTapped(index);
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Model/order_model.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Utils/app_routes.dart';
 import '../../Widgets/custom_text.dart';
 
@@ -77,7 +78,7 @@ class _OrderscreenState extends State<Orderscreen> {
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, AppRoutes.notification),
+          onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, AppRoutes.notification); },
           child: Stack(
             clipBehavior: Clip.none,
             children: [

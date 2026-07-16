@@ -6,6 +6,7 @@ import '../../Widgets/company_tile.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/custom_text.dart';
 import '../../Widgets/custom_text_field.dart';
+import '../../Utils/app_haptics.dart';
 
 class Loginscreen extends StatefulWidget {
   const Loginscreen({super.key});
@@ -125,7 +126,7 @@ class _LoginscreenState extends State<Loginscreen> {
               child: CompanyTile(
                 company: _companies[index],
                 selected: _selectedCompanyIndex == index,
-                onTap: () => setState(() => _selectedCompanyIndex = index),
+                onTap: () { AppHaptics.tap(); setState(() => _selectedCompanyIndex = index); },
               ),
             ),
           ),
@@ -134,6 +135,7 @@ class _LoginscreenState extends State<Loginscreen> {
             label: isSignIn ? 'Sign in' : 'Create account',
             trailingIcon: Icons.arrow_forward,
             onPressed: () {
+              AppHaptics.tap();
               Navigator.pushNamed(context, "/bottombar");
             },
           ),
@@ -195,7 +197,12 @@ class _LoginscreenState extends State<Loginscreen> {
       children: [
         Icon(icon, size: 18.sp, color: AppColors.labelGrey),
         SizedBox(width: 8.w),
-        CustomText(text: text, fontSize: 14.sp, color: AppColors.labelGrey, fontWeight: FontWeight.w500),
+        CustomText(
+          text: text,
+          fontSize: 14.sp,
+          color: AppColors.labelGrey,
+          fontWeight: FontWeight.w500,
+        ),
       ],
     );
   }
@@ -206,7 +213,12 @@ class _LoginscreenState extends State<Loginscreen> {
         const Expanded(child: Divider(color: AppColors.borderGrey)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: CustomText(text: 'DEMO ACCESS', fontSize: 12.sp, color: AppColors.hintGrey, fontWeight: FontWeight.w600),
+          child: CustomText(
+            text: 'DEMO ACCESS',
+            fontSize: 12.sp,
+            color: AppColors.hintGrey,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const Expanded(child: Divider(color: AppColors.borderGrey)),
       ],
@@ -222,7 +234,10 @@ class _LoginscreenState extends State<Loginscreen> {
             leadingIcon: Icons.person_outline,
             leadingIconColor: Colors.black54,
             label: 'Employee',
-            onPressed: () {},
+            onPressed: () {
+              AppHaptics.tap();
+              Navigator.pushNamed(context, "/bottombar");
+            },
           ),
         ),
         SizedBox(width: 12.w),
@@ -232,7 +247,10 @@ class _LoginscreenState extends State<Loginscreen> {
             leadingIcon: Icons.emoji_events_outlined,
             leadingIconColor: Colors.orange,
             label: 'Admin',
-            onPressed: () {},
+            onPressed: () {
+              AppHaptics.tap();
+              Navigator.pushNamed(context, "/adminbottombar");
+            },
           ),
         ),
       ],

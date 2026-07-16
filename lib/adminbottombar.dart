@@ -5,11 +5,12 @@ import 'package:tusharsirproject/ReportScreen/ReportScreen.dart';
 import 'package:tusharsirproject/Screens/SettingScreen/SetingScreen.dart';
 import 'package:tusharsirproject/TeamScreen/TeamScreen.dart';
 import 'Utils/app_colors.dart';
+import 'Utils/app_haptics.dart';
 import 'Widgets/custom_text.dart';
 
 class Adminbottombar extends StatefulWidget {
   final int index;
-  Adminbottombar({super.key, this.index = 0});
+  const Adminbottombar({super.key, this.index = 0});
 
   @override
   State<Adminbottombar> createState() => _AdminbottombarState();
@@ -77,8 +78,10 @@ class _AdminbottombarState extends State<Adminbottombar> {
               ),
             ),
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, "/addOrderManualscreen"),
+              onTap: () {
+                AppHaptics.tap();
+                Navigator.pushNamed(context, "/addOrderManualscreen");
+              },
               child: _buildAddButton(),
             ),
             Expanded(
@@ -111,7 +114,10 @@ class _AdminbottombarState extends State<Adminbottombar> {
   }) {
     final bool selected = _selectedIndex == index;
     return InkWell(
-      onTap: () => _onItemTapped(index),
+      onTap: () {
+        AppHaptics.tap();
+        _onItemTapped(index);
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

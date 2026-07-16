@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -190,7 +191,7 @@ class _ReportScreenState extends State<ReportScreen> {
             borderRadius: BorderRadius.circular(22.r),
           ),
         ),
-        onPressed: () {},
+        onPressed: () { AppHaptics.tap(); },
         icon: Icon(Icons.download_outlined, size: 24.sp),
         label: CustomText(
           text: "Export weekly report",
@@ -261,12 +262,13 @@ class _ReportScreenState extends State<ReportScreen> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: filters.length,
-        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
         itemBuilder: (context, index) {
           final selected = selectedFilter == index;
 
           return GestureDetector(
             onTap: () {
+              AppHaptics.tap();
               setState(() {
                 selectedFilter = index;
               });

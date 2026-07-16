@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tusharsirproject/bottom_bar.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Utils/app_routes.dart';
 import '../../Widgets/custom_text.dart';
 
@@ -70,7 +71,7 @@ class Homescreen extends StatelessWidget {
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, AppRoutes.notification),
+          onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, AppRoutes.notification); },
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -356,7 +357,7 @@ class Homescreen extends StatelessWidget {
         SizedBox(width: 10.w),
         Expanded(
           child: GestureDetector(
-            onTap: () => Navigator.pushNamed(context, "/addOrderManualscreen"),
+            onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, "/addOrderManualscreen"); },
 
             child: _buildActionCard(
               background: const Color(0xFFF4F9F7),
@@ -419,10 +420,10 @@ class Homescreen extends StatelessWidget {
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () => Navigator.push(
+          onTap: () { AppHaptics.tap(); Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => BottomBar(index: 2)),
-          ),
+          ); },
           child: Row(
             children: [
               CustomText(

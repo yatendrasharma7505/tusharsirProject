@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Model/company_model.dart';
 import '../Utils/app_colors.dart';
+import '../Utils/app_haptics.dart';
 import 'custom_text.dart';
 
 class CompanyTile extends StatelessWidget {
@@ -19,7 +20,7 @@ class CompanyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () { AppHaptics.tap(); onTap(); },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
         decoration: BoxDecoration(

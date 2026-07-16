@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../Utils/app_haptics.dart';
 import '../Widgets/custom_text.dart';
 
 class TeamScreen extends StatefulWidget {
@@ -90,7 +91,7 @@ class _TeamScreenState extends State<TeamScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: employees.length,
-                    separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                    separatorBuilder: (_, _) => SizedBox(height: 12.h),
                     itemBuilder: (_, index) {
                       return _buildEmployeeCard(employees[index]);
                     },
@@ -267,7 +268,7 @@ class _TeamScreenState extends State<TeamScreen> {
       width: double.infinity,
       height: 44.h,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () { AppHaptics.tap(); },
         icon: Icon(Icons.person_add_alt_1, color: Colors.white, size: 18.sp),
         label: CustomText(
           text: "Add employee",
@@ -297,12 +298,13 @@ class _TeamScreenState extends State<TeamScreen> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: companies.length,
-        separatorBuilder: (_, __) => SizedBox(width: 8.w),
+        separatorBuilder: (_, _) => SizedBox(width: 8.w),
         itemBuilder: (_, index) {
           final selected = selectedCompany == index;
 
           return GestureDetector(
             onTap: () {
+              AppHaptics.tap();
               setState(() {
                 selectedCompany = index;
               });

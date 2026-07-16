@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Utils/app_routes.dart';
 import '../../Widgets/custom_text.dart';
 
@@ -55,7 +56,7 @@ class _RankscreenState extends State<Rankscreen> {
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, AppRoutes.notification),
+          onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, AppRoutes.notification); },
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -99,7 +100,7 @@ class _RankscreenState extends State<Rankscreen> {
           final bool selected = _selectedFilter == index;
           return Expanded(
             child: GestureDetector(
-              onTap: () => setState(() => _selectedFilter = index),
+              onTap: () { AppHaptics.tap(); setState(() => _selectedFilter = index); },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
                 padding: EdgeInsets.symmetric(vertical: 12.h),
