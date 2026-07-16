@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tusharsirproject/bottom_bar.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/app_routes.dart';
+import '../../Widgets/custom_text.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -16,25 +17,25 @@ class Homescreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(16.r),
+              padding: EdgeInsets.all(12.r),
               child: _buildTopBar(context),
             ),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+                padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 12.h),
                 children: [
                   _buildGreeting(),
-                  SizedBox(height: 16.h),
-                  _buildCompanyBanner(),
-                  SizedBox(height: 16.h),
-                  _buildStatsGrid(),
-                  SizedBox(height: 16.h),
-                  _buildDailyTargetCard(),
-                  SizedBox(height: 20.h),
-                  _buildQuickActionsRow(context),
-                  SizedBox(height: 20.h),
-                  _buildLeaderboardHeader(context),
                   SizedBox(height: 12.h),
+                  _buildCompanyBanner(),
+                  SizedBox(height: 12.h),
+                  _buildStatsGrid(),
+                  SizedBox(height: 12.h),
+                  _buildDailyTargetCard(),
+                  SizedBox(height: 14.h),
+                  _buildQuickActionsRow(context),
+                  SizedBox(height: 14.h),
+                  _buildLeaderboardHeader(context),
+                  SizedBox(height: 8.h),
                   _buildLeaderboardCard(),
                 ],
               ),
@@ -49,21 +50,21 @@ class Homescreen extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          radius: 22.r,
+          radius: 18.r,
           backgroundColor: AppColors.primary,
-          child: Icon(Icons.crop_free, color: Colors.white, size: 20.sp),
+          child: Icon(Icons.crop_free, color: Colors.white, size: 16.sp),
         ),
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'OrderDesk',
-              style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.bold),
+            CustomTitleText(
+              text: 'OrderDesk',
+              fontSize: 16.sp,
             ),
-            Text(
-              'Shree Textiles',
-              style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
+            CustomSubText(
+              text: 'Shree Textiles',
+              fontSize: 11.sp,
             ),
           ],
         ),
@@ -74,20 +75,20 @@ class Homescreen extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               CircleAvatar(
-                radius: 20.r,
+                radius: 16.r,
                 backgroundColor: AppColors.fieldFill,
                 child: Icon(
                   Icons.notifications_none,
                   color: Colors.black87,
-                  size: 19.sp,
+                  size: 16.sp,
                 ),
               ),
               Positioned(
-                top: 2.h,
-                right: 2.w,
+                top: 0,
+                right: 0,
                 child: Container(
-                  width: 9.w,
-                  height: 9.w,
+                  width: 8.w,
+                  height: 8.w,
                   decoration: const BoxDecoration(
                     color: AppColors.logoutRed,
                     shape: BoxShape.circle,
@@ -97,14 +98,14 @@ class Homescreen extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: 10.w),
+        SizedBox(width: 8.w),
         CircleAvatar(
-          radius: 20.r,
+          radius: 16.r,
           backgroundColor: AppColors.fieldFill,
           child: Icon(
             Icons.wb_sunny_outlined,
             color: Colors.black87,
-            size: 18.sp,
+            size: 16.sp,
           ),
         ),
       ],
@@ -118,35 +119,32 @@ class Homescreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Good afternoon,',
-                style: TextStyle(fontSize: 15.sp, color: AppColors.labelGrey),
+              CustomSubText(
+                text: 'Good afternoon,',
+                fontSize: 12.sp,
               ),
               Row(
                 children: [
-                  Text(
-                    'Rahul',
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  CustomTitleText(
+                    text: 'Rahul',
+                    fontSize: 16.sp,
                   ),
                   SizedBox(width: 6.w),
-                  Text('👋', style: TextStyle(fontSize: 18.sp)),
+                  Text('👋', style: TextStyle(fontSize: 16.sp)),
                 ],
               ),
             ],
           ),
         ),
         CircleAvatar(
-          radius: 24.r,
+          radius: 20.r,
           backgroundColor: AppColors.primary,
           child: Text(
             'RS',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
             ),
           ),
         ),
@@ -157,63 +155,56 @@ class Homescreen extends StatelessWidget {
   Widget _buildCompanyBanner() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: AppColors.primary,
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
         children: [
           Container(
-            width: 44.w,
-            height: 44.w,
+            width: 38.w,
+            height: 38.w,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(14.r),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(
               Icons.business_outlined,
               color: Colors.white,
-              size: 22.sp,
+              size: 18.sp,
             ),
           ),
-          SizedBox(width: 14.w),
+          SizedBox(width: 10.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "You're working under",
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.75),
-                    fontSize: 13.sp,
-                  ),
+                CustomSubText(
+                  text: "You're working under",
+                  fontSize: 11.sp,
+                  color: Colors.white.withValues(alpha: 0.75),
                 ),
-                Text(
-                  'Shree Textiles',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.sp,
-                  ),
+                CustomTitleText(
+                  text: 'Shree Textiles',
+                  fontSize: 14.sp,
+                  color: Colors.white,
                 ),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            child: Text(
-              'ST',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
+            child: CustomText(
+              text: 'ST',
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ],
@@ -235,7 +226,7 @@ class Homescreen extends StatelessWidget {
                 label: 'Orders today',
               ),
             ),
-            SizedBox(width: 12.w),
+            SizedBox(width: 10.w),
             Expanded(
               child: _buildStatCard(
                 icon: Icons.tag,
@@ -247,7 +238,7 @@ class Homescreen extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: 10.h),
         Row(
           children: [
             Expanded(
@@ -259,7 +250,7 @@ class Homescreen extends StatelessWidget {
                 label: 'This month',
               ),
             ),
-            SizedBox(width: 12.w),
+            SizedBox(width: 10.w),
             Expanded(
               child: _buildStatCard(
                 icon: Icons.trending_up,
@@ -284,28 +275,28 @@ class Homescreen extends StatelessWidget {
   }) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 18.r,
+            radius: 14.r,
             backgroundColor: iconBackground,
-            child: Icon(icon, size: 18.sp, color: iconColor),
+            child: Icon(icon, size: 16.sp, color: iconColor),
           ),
-          SizedBox(height: 10.h),
-          Text(
-            value,
-            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+          SizedBox(height: 8.h),
+          CustomStatText(
+            text: value,
+            fontSize: 16.sp,
           ),
           SizedBox(height: 2.h),
-          Text(
-            label,
-            style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
+          CustomSubText(
+            text: label,
+            fontSize: 11.sp,
           ),
         ],
       ),
@@ -314,34 +305,31 @@ class Homescreen extends StatelessWidget {
 
   Widget _buildDailyTargetCard() {
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text(
-                'Team daily target',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+              CustomTitleText(
+                text: 'Team daily target',
+                fontSize: 13.sp,
               ),
               const Spacer(),
-              Text(
-                '79%',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
-                ),
+              CustomStatText(
+                text: '79%',
+                fontSize: 14.sp,
+                color: AppColors.primary,
               ),
             ],
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 10.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(6.r),
             child: LinearProgressIndicator(
               value: 0.79,
               minHeight: 8.h,
@@ -349,10 +337,10 @@ class Homescreen extends StatelessWidget {
               valueColor: const AlwaysStoppedAnimation(AppColors.primary),
             ),
           ),
-          SizedBox(height: 8.h),
-          Text(
-            '118 of 150 orders processed today',
-            style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
+          SizedBox(height: 6.h),
+          CustomSubText(
+            text: '118 of 150 orders processed today',
+            fontSize: 11.sp,
           ),
         ],
       ),
@@ -372,7 +360,7 @@ class Homescreen extends StatelessWidget {
             subtitle: 'Shared photo + text',
           ),
         ),
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         Expanded(
           child: GestureDetector(
             onTap: () => Navigator.pushNamed(context, "/addOrderManualscreen"),
@@ -400,29 +388,29 @@ class Homescreen extends StatelessWidget {
     required String subtitle,
   }) {
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(18.r),
+        borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 20.r,
+            radius: 16.r,
             backgroundColor: iconBackground,
-            child: Icon(icon, color: Colors.white, size: 20.sp),
+            child: Icon(icon, color: Colors.white, size: 16.sp),
           ),
-          SizedBox(height: 12.h),
-          Text(
-            title,
-            style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
+          SizedBox(height: 8.h),
+          CustomTitleText(
+            text: title,
+            fontSize: 12.sp,
           ),
           SizedBox(height: 2.h),
-          Text(
-            subtitle,
-            style: TextStyle(fontSize: 12.sp, color: AppColors.labelGrey),
+          CustomSubText(
+            text: subtitle,
+            fontSize: 10.sp,
           ),
         ],
       ),
@@ -432,9 +420,9 @@ class Homescreen extends StatelessWidget {
   Widget _buildLeaderboardHeader(BuildContext context) {
     return Row(
       children: [
-        Text(
-          "Today's leaderboard",
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        CustomTitleText(
+          text: "Today's leaderboard",
+          fontSize: 14.sp,
         ),
         const Spacer(),
         GestureDetector(
@@ -444,15 +432,13 @@ class Homescreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
+              CustomText(
+                text: 'See all',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
               ),
-              Icon(Icons.chevron_right, size: 18.sp, color: AppColors.primary),
+              Icon(Icons.chevron_right, size: 16.sp, color: AppColors.primary),
             ],
           ),
         ),
@@ -462,10 +448,10 @@ class Homescreen extends StatelessWidget {
 
   Widget _buildLeaderboardCard() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
         children: [
@@ -479,7 +465,7 @@ class Homescreen extends StatelessWidget {
             subtitle: '42 orders · 310 pcs',
             showCrown: true,
           ),
-          Divider(color: AppColors.borderGrey, height: 24.h),
+          Divider(color: AppColors.borderGrey, height: 18.h),
           _buildLeaderboardRow(
             rank: 2,
             rankBackground: AppColors.fieldFill,
@@ -489,7 +475,7 @@ class Homescreen extends StatelessWidget {
             name: 'Amit Verma',
             subtitle: '35 orders · 220 pcs',
           ),
-          Divider(color: AppColors.borderGrey, height: 24.h),
+          Divider(color: AppColors.borderGrey, height: 18.h),
           _buildLeaderboardRow(
             rank: 3,
             rankBackground: const Color(0xFFF7E4C9),
@@ -517,48 +503,44 @@ class Homescreen extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          radius: 14.r,
+          radius: 12.r,
           backgroundColor: rankBackground,
-          child: Text(
-            '$rank',
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-              color: rankColor,
-            ),
+          child: CustomText(
+            text: '$rank',
+            fontSize: 11.sp,
+            fontWeight: FontWeight.bold,
+            color: rankColor,
           ),
         ),
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         CircleAvatar(
-          radius: 18.r,
+          radius: 16.r,
           backgroundColor: avatarBackground,
-          child: Text(
-            initials,
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          child: CustomText(
+            text: initials,
+            fontSize: 11.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
-        SizedBox(width: 12.w),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                name,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+              CustomText(
+                text: name,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
               ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
+              CustomSubText(
+                text: subtitle,
+                fontSize: 11.sp,
               ),
             ],
           ),
         ),
-        if (showCrown)
-          Icon(Icons.emoji_events, color: Colors.amber, size: 20.sp),
+        if (showCrown) Icon(Icons.emoji_events, color: Colors.amber, size: 18.sp),
       ],
     );
   }

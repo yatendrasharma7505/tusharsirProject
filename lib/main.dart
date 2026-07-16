@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tusharsirproject/CustomerdatabseScreen/customerdatabasescreen.dart';
 import 'package:tusharsirproject/Screens/AddOrderManual/AddOrderManualscreen.dart';
 import 'package:tusharsirproject/Screens/Home/Homescreen.dart';
 import 'package:tusharsirproject/Screens/Login/Loginscreen.dart';
@@ -7,7 +8,6 @@ import 'package:tusharsirproject/Screens/Notification/Notificationscreen.dart';
 import 'package:tusharsirproject/Screens/Order/Orderscreen.dart';
 import 'package:tusharsirproject/Screens/Profile/Profilescreen.dart';
 import 'package:tusharsirproject/Screens/Rank/Rankscreen.dart';
-import 'package:tusharsirproject/addEmployee/addemployeescreen.dart';
 import 'package:tusharsirproject/adminbottombar.dart';
 import 'package:tusharsirproject/bottom_bar.dart';
 
@@ -27,20 +27,19 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           // home: AddEmployeeScreen(),
-          initialRoute: '/adminbottombar',
+          initialRoute: '/loginscreen',
 
           routes: {
             "/loginscreen": (context) => Loginscreen(),
             "/bottombar": (context) => BottomBar(),
             "/homescreen": (context) => Homescreen(),
-
             "/adminbottombar": (context) => Adminbottombar(),
-            // "/admi"
             "/orderscreen": (context) => Orderscreen(),
             "/addOrderManualscreen": (context) => AddOrderManualscreen(),
             "/rankscreen": (context) => Rankscreen(),
             "/profilescreen": (context) => Profilescreen(),
             "/notificationscreen": (context) => Notificationscreen(),
+            "/customerDatabaseScreen": (context) => CustomerDatabaseScreen(),
           },
         );
       },

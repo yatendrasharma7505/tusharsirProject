@@ -22,16 +22,12 @@ class _SetingscreenState extends State<Setingscreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(12.r),
-              child: _buildTopBar(),
-            ),
+            Padding(padding: EdgeInsets.all(12.r), child: _buildTopBar()),
 
             Expanded(
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 children: [
-
                   _buildProfileCard(),
 
                   SizedBox(height: 12.h),
@@ -49,7 +45,7 @@ class _SetingscreenState extends State<Setingscreen> {
                   SizedBox(height: 20.h),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -63,30 +59,21 @@ class _SetingscreenState extends State<Setingscreen> {
   Widget _buildTopBar() {
     return Row(
       children: [
-
         CircleAvatar(
           radius: 18.r,
           backgroundColor: AppColors.primary,
-          child: Icon(
-            Icons.crop_free,
-            color: Colors.white,
-            size: 16.sp,
-          ),
+          child: Icon(Icons.crop_free, color: Colors.white, size: 16.sp),
         ),
 
         SizedBox(width: 10.w),
 
-        CustomTitleText(
-          text: "Settings",
-          fontSize: 18.sp,
-        ),
+        CustomTitleText(text: "Settings", fontSize: 18.sp),
 
         const Spacer(),
 
         Stack(
           clipBehavior: Clip.none,
           children: [
-
             CircleAvatar(
               radius: 16.r,
               backgroundColor: AppColors.fieldFill,
@@ -104,9 +91,9 @@ class _SetingscreenState extends State<Setingscreen> {
                   shape: BoxShape.circle,
                 ),
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -124,7 +111,6 @@ class _SetingscreenState extends State<Setingscreen> {
       ),
       child: Row(
         children: [
-
           Container(
             width: 44.w,
             height: 44.w,
@@ -144,11 +130,7 @@ class _SetingscreenState extends State<Setingscreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              CustomTitleText(
-                text: "Manager",
-                fontSize: 16.sp,
-              ),
+              CustomTitleText(text: "Manager", fontSize: 16.sp),
 
               SizedBox(height: 2.h),
 
@@ -157,7 +139,7 @@ class _SetingscreenState extends State<Setingscreen> {
                 fontSize: 13.sp,
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -175,12 +157,13 @@ class _SetingscreenState extends State<Setingscreen> {
       ),
       child: Column(
         children: [
-
           _tile(
             icon: Icons.storage_outlined,
             title: "Customer database",
             subtitle: "7 customers",
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/customerDatabaseScreen");
+            },
           ),
 
           Divider(height: 1),
@@ -195,13 +178,9 @@ class _SetingscreenState extends State<Setingscreen> {
           Divider(height: 1),
 
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 14.w,
-              vertical: 10.h,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
             child: Row(
               children: [
-
                 _icon(Icons.dark_mode_outlined),
 
                 SizedBox(width: 10.w),
@@ -210,7 +189,6 @@ class _SetingscreenState extends State<Setingscreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       CustomText(
                         text: "Dark mode",
                         fontSize: 15.sp,
@@ -233,10 +211,10 @@ class _SetingscreenState extends State<Setingscreen> {
                       darkMode = v;
                     });
                   },
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -255,7 +233,6 @@ class _SetingscreenState extends State<Setingscreen> {
         padding: EdgeInsets.all(14.r),
         child: Row(
           children: [
-
             _icon(icon),
 
             SizedBox(width: 10.w),
@@ -264,26 +241,18 @@ class _SetingscreenState extends State<Setingscreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   CustomText(
                     text: title,
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
                   ),
 
-                  CustomSubText(
-                    text: subtitle,
-                    fontSize: 12.sp,
-                  ),
+                  CustomSubText(text: subtitle, fontSize: 12.sp),
                 ],
               ),
             ),
 
-            Icon(
-              Icons.chevron_right,
-              color: Colors.grey,
-              size: 18.sp,
-            )
+            Icon(Icons.chevron_right, color: Colors.grey, size: 18.sp),
           ],
         ),
       ),
@@ -298,11 +267,7 @@ class _SetingscreenState extends State<Setingscreen> {
         color: AppColors.fieldFill,
         borderRadius: BorderRadius.circular(12.r),
       ),
-      child: Icon(
-        icon,
-        color: AppColors.labelGrey,
-        size: 18.sp,
-      ),
+      child: Icon(icon, color: AppColors.labelGrey, size: 18.sp),
     );
   }
 
@@ -320,11 +285,7 @@ class _SetingscreenState extends State<Setingscreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          CustomTitleText(
-            text: "Switch view",
-            fontSize: 16.sp,
-          ),
+          CustomTitleText(text: "Switch view", fontSize: 16.sp),
 
           SizedBox(height: 12.h),
 
@@ -336,7 +297,6 @@ class _SetingscreenState extends State<Setingscreen> {
             ),
             child: Row(
               children: [
-
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -348,9 +308,7 @@ class _SetingscreenState extends State<Setingscreen> {
                       duration: const Duration(milliseconds: 250),
                       padding: EdgeInsets.symmetric(vertical: 10.h),
                       decoration: BoxDecoration(
-                        color: !adminMode
-                            ? Colors.white
-                            : Colors.transparent,
+                        color: !adminMode ? Colors.white : Colors.transparent,
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Center(
@@ -375,9 +333,7 @@ class _SetingscreenState extends State<Setingscreen> {
                       duration: const Duration(milliseconds: 250),
                       padding: EdgeInsets.symmetric(vertical: 10.h),
                       decoration: BoxDecoration(
-                        color: adminMode
-                            ? Colors.white
-                            : Colors.transparent,
+                        color: adminMode ? Colors.white : Colors.transparent,
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Center(
@@ -392,7 +348,7 @@ class _SetingscreenState extends State<Setingscreen> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -413,12 +369,7 @@ class _SetingscreenState extends State<Setingscreen> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-
-            Icon(
-              Icons.logout,
-              color: Colors.red,
-              size: 18.sp,
-            ),
+            Icon(Icons.logout, color: Colors.red, size: 18.sp),
 
             SizedBox(width: 8.w),
 
@@ -427,7 +378,7 @@ class _SetingscreenState extends State<Setingscreen> {
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
               color: Colors.red,
-            )
+            ),
           ],
         ),
       ),

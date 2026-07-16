@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tusharsirproject/DashboardScreen/Dashboardscreen.dart';
 import 'package:tusharsirproject/ReportScreen/ReportScreen.dart';
 import 'package:tusharsirproject/Screens/SettingScreen/SetingScreen.dart';
 import 'package:tusharsirproject/TeamScreen/TeamScreen.dart';
-import 'Screens/Home/Homescreen.dart';
-import 'Screens/Order/Orderscreen.dart';
-import 'Screens/Rank/Rankscreen.dart';
 import 'Utils/app_colors.dart';
 
 class Adminbottombar extends StatefulWidget {
@@ -26,7 +24,7 @@ class _AdminbottombarState extends State<Adminbottombar> {
   }
 
   final List<Widget> _screens = const [
-    Homescreen(),
+    DashboardScreen(),
     TeamScreen(),
     ReportScreen(),
     Setingscreen(),
@@ -73,7 +71,7 @@ class _AdminbottombarState extends State<Adminbottombar> {
               child: _buildNavItem(
                 index: 1,
                 icon: Icons.people,
-                activeIcon: Icons.shopping_bag,
+                activeIcon: Icons.people,
                 label: 'Team',
               ),
             ),
@@ -86,7 +84,7 @@ class _AdminbottombarState extends State<Adminbottombar> {
               child: _buildNavItem(
                 index: 2,
                 icon: Icons.bar_chart_sharp,
-                activeIcon: Icons.emoji_events,
+                activeIcon: Icons.bar_chart_sharp,
                 label: 'Reports',
               ),
             ),
@@ -94,7 +92,7 @@ class _AdminbottombarState extends State<Adminbottombar> {
               child: _buildNavItem(
                 index: 3,
                 icon: Icons.settings,
-                activeIcon: Icons.person,
+                activeIcon: Icons.settings,
                 label: 'Settings',
               ),
             ),
