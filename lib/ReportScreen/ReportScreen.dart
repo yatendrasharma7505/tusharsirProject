@@ -75,7 +75,7 @@ class _ReportScreenState extends State<ReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitleText(text: "Order status report", fontSize: 18.sp),
+          CustomTitleText(text: "Order status report", fontSize: 16.sp),
 
           SizedBox(height: 24.h),
 
@@ -149,7 +149,7 @@ class _ReportScreenState extends State<ReportScreen> {
       children: [
         SizedBox(
           width: 120.w,
-          child: CustomText(text: title, fontSize: 16.sp),
+          child: CustomText(text: title, fontSize: 14.sp),
         ),
 
         Expanded(
@@ -168,7 +168,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
         SizedBox(
           width: 20.w,
-          child: CustomStatText(text: value.toString(), fontSize: 18.sp),
+          child: CustomStatText(text: value.toString(), fontSize: 16.sp),
         ),
       ],
     );
@@ -191,11 +191,13 @@ class _ReportScreenState extends State<ReportScreen> {
             borderRadius: BorderRadius.circular(22.r),
           ),
         ),
-        onPressed: () { AppHaptics.tap(); },
+        onPressed: () {
+          AppHaptics.tap();
+        },
         icon: Icon(Icons.download_outlined, size: 24.sp),
         label: CustomText(
           text: "Export weekly report",
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
@@ -217,9 +219,9 @@ class _ReportScreenState extends State<ReportScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomTitleText(text: "Reports", fontSize: 20.sp),
+            CustomTitleText(text: "Reports", fontSize: 18.sp),
 
-            CustomSubText(text: "Performance & exports", fontSize: 14.sp),
+            CustomSubText(text: "Performance & exports", fontSize: 12.sp),
           ],
         ),
 
@@ -283,7 +285,7 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
               child: CustomText(
                 text: filters[index],
-                fontSize: 15.sp,
+                fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
                 color: selected ? Colors.white : Colors.black87,
               ),
@@ -350,11 +352,11 @@ class _ReportScreenState extends State<ReportScreen> {
 
           SizedBox(height: 20.h),
 
-          CustomStatText(text: value, fontSize: 22.sp),
+          CustomStatText(text: value, fontSize: 20.sp),
 
           SizedBox(height: 4.h),
 
-          CustomSubText(text: title, fontSize: 15.sp),
+          CustomSubText(text: title, fontSize: 13.sp),
         ],
       ),
     );
@@ -374,7 +376,7 @@ class _ReportScreenState extends State<ReportScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitleText(text: "Weekly orders trend", fontSize: 18.sp),
+          CustomTitleText(text: "Weekly orders trend", fontSize: 16.sp),
 
           SizedBox(height: 30.h),
 
@@ -386,7 +388,10 @@ class _ReportScreenState extends State<ReportScreen> {
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Center(
-              child: CustomText(text: "Chart goes here\n(fl_chart)", textAlign: TextAlign.center),
+              child: CustomText(
+                text: "Chart goes here\n(fl_chart)",
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
 

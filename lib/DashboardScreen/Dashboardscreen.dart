@@ -63,16 +63,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
-                  CustomSubText(text: "Manager overview", fontSize: 16.sp),
+                  CustomSubText(text: "Manager overview", fontSize: 14.sp),
 
                   SizedBox(height: 4.h),
 
-                  CustomTitleText(text: "Today at a glance", fontSize: 22.sp),
+                  CustomTitleText(text: "Today at a glance", fontSize: 20.sp),
 
                   SizedBox(height: 22.h),
 
                   _buildCompanyFilter(),
-
                   SizedBox(height: 24.h),
 
                   _buildStatsGrid(),
@@ -87,7 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   SizedBox(height: 24.h),
 
-                  CustomTitleText(text: "Latest orders", fontSize: 22.sp),
+                  CustomTitleText(text: "Latest orders", fontSize: 20.sp),
 
                   SizedBox(height: 16.h),
 
@@ -134,22 +133,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomSubText(text: "Top employee of the day", fontSize: 14.sp, color: Colors.white70),
+                CustomSubText(
+                  text: "Top employee of the day",
+                  fontSize: 12.sp,
+                  color: Colors.white70,
+                ),
 
                 SizedBox(height: 4.h),
 
-                CustomTitleText(text: "Rahul Sharma", fontSize: 22.sp, color: Colors.white),
+                CustomTitleText(
+                  text: "Rahul Sharma",
+                  fontSize: 20.sp,
+                  color: Colors.white,
+                ),
 
                 SizedBox(height: 2.h),
 
-                CustomSubText(text: "Shree Textiles", fontSize: 16.sp, color: Colors.white70),
+                CustomSubText(
+                  text: "Shree Textiles",
+                  fontSize: 14.sp,
+                  color: Colors.white70,
+                ),
               ],
             ),
           ),
 
           Column(
             children: [
-              CustomText(text: "42", fontSize: 24.sp, fontWeight: FontWeight.bold, color: Colors.white),
+              CustomText(
+                text: "42",
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
 
               CustomSubText(text: "orders", color: Colors.white70),
             ],
@@ -211,11 +227,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           SizedBox(height: 20.h),
 
-          CustomTitleText(text: title, fontSize: 20.sp),
+          CustomTitleText(text: title, fontSize: 18.sp),
 
           SizedBox(height: 6.h),
 
-          CustomSubText(text: subtitle, fontSize: 15.sp),
+          CustomSubText(text: subtitle, fontSize: 13.sp),
         ],
       ),
     );
@@ -231,13 +247,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Row(
         children: [
           Container(
-            width: 62.w,
-            height: 62.w,
+            width: 52.w,
+            height: 52.w,
             decoration: BoxDecoration(
               color: order["iconBg"],
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Icon(order["icon"], color: AppColors.primary, size: 30.sp),
+            child: Icon(order["icon"], color: AppColors.primary, size: 25.sp),
           ),
 
           SizedBox(width: 18.w),
@@ -246,11 +262,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTitleText(text: order["name"], fontSize: 20.sp),
+                CustomTitleText(text: order["name"], fontSize: 15.sp),
 
                 SizedBox(height: 4.h),
 
-                CustomSubText(text: order["subtitle"], fontSize: 15.sp),
+                CustomSubText(text: order["subtitle"], fontSize: 13.sp),
               ],
             ),
           ),
@@ -261,7 +277,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: order["statusBg"],
               borderRadius: BorderRadius.circular(18.r),
             ),
-            child: CustomText(text: order["status"], fontWeight: FontWeight.w600, color: order["statusColor"]),
+            child: CustomText(
+              text: order["status"],
+              fontWeight: FontWeight.w600,
+              color: order["statusColor"],
+            ),
           ),
         ],
       ),
@@ -282,9 +302,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomTitleText(text: "OrderDesk", fontSize: 22.sp),
+            CustomTitleText(text: "OrderDesk", fontSize: 20.sp),
 
-            CustomSubText(text: "Manager view", fontSize: 15.sp),
+            CustomSubText(text: "Manager view", fontSize: 13.sp),
           ],
         ),
 
@@ -354,7 +374,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: selected ? AppColors.primary : Colors.white,
                 borderRadius: BorderRadius.circular(18.r),
               ),
-              child: CustomText(text: companies[index], fontSize: 16.sp, fontWeight: FontWeight.w600, color: selected ? Colors.white : Colors.black87),
+              child: CustomText(
+                text: companies[index],
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: selected ? Colors.white : Colors.black87,
+              ),
             ),
           );
         },
@@ -460,13 +485,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Icon(icon, color: iconColor),
           ),
 
-          SizedBox(height: 22.h),
-
-          CustomStatText(text: value, fontSize: 22.sp),
+          // SizedBox(height: 22.h),
+          CustomStatText(text: value, fontSize: 20.sp),
 
           SizedBox(height: 4.h),
 
-          CustomSubText(text: label, fontSize: 15.sp),
+          CustomSubText(text: label, fontSize: 13.sp),
         ],
       ),
     );
