@@ -45,10 +45,7 @@ class CompanyTile extends StatelessWidget {
             Expanded(
               child: Text(
                 company.name,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
             ),
             selected

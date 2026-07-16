@@ -7,6 +7,8 @@ import 'package:tusharsirproject/Screens/Notification/Notificationscreen.dart';
 import 'package:tusharsirproject/Screens/Order/Orderscreen.dart';
 import 'package:tusharsirproject/Screens/Profile/Profilescreen.dart';
 import 'package:tusharsirproject/Screens/Rank/Rankscreen.dart';
+import 'package:tusharsirproject/addEmployee/addemployeescreen.dart';
+import 'package:tusharsirproject/adminbottombar.dart';
 import 'package:tusharsirproject/bottom_bar.dart';
 
 void main() {
@@ -24,12 +26,16 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: '/loginscreen',
+          // home: AddEmployeeScreen(),
+          initialRoute: '/adminbottombar',
 
           routes: {
             "/loginscreen": (context) => Loginscreen(),
             "/bottombar": (context) => BottomBar(),
             "/homescreen": (context) => Homescreen(),
+
+            "/adminbottombar": (context) => Adminbottombar(),
+            // "/admi"
             "/orderscreen": (context) => Orderscreen(),
             "/addOrderManualscreen": (context) => AddOrderManualscreen(),
             "/rankscreen": (context) => Rankscreen(),
