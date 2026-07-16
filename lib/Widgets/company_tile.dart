@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Model/company_model.dart';
 import '../Utils/app_colors.dart';
+import 'custom_text.dart';
 
 class CompanyTile extends StatelessWidget {
   final CompanyModel company;
@@ -33,20 +34,11 @@ class CompanyTile extends StatelessWidget {
             CircleAvatar(
               radius: 20.r,
               backgroundColor: company.avatarBackground,
-              child: Text(
-                company.initials,
-                style: TextStyle(
-                  color: company.avatarTextColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: CustomText(text: company.initials, fontWeight: FontWeight.bold, color: company.avatarTextColor),
             ),
             SizedBox(width: 14.w),
             Expanded(
-              child: Text(
-                company.name,
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
+              child: CustomText(text: company.name, fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             selected
                 ? CircleAvatar(

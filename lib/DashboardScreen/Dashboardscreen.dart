@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Widgets/custom_text.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -61,23 +62,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
-                  Text(
-                    "Manager overview",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.labelGrey,
-                    ),
-                  ),
+                  CustomSubText(text: "Manager overview", fontSize: 16.sp),
 
                   SizedBox(height: 4.h),
 
-                  Text(
-                    "Today at a glance",
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  CustomTitleText(text: "Today at a glance", fontSize: 22.sp),
 
                   SizedBox(height: 22.h),
 
@@ -97,13 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                   SizedBox(height: 24.h),
 
-                  Text(
-                    "Latest orders",
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  CustomTitleText(text: "Latest orders", fontSize: 22.sp),
 
                   SizedBox(height: 16.h),
 
@@ -150,44 +133,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Top employee of the day",
-                  style: TextStyle(color: Colors.white70, fontSize: 14.sp),
-                ),
+                CustomSubText(text: "Top employee of the day", fontSize: 14.sp, color: Colors.white70),
 
                 SizedBox(height: 4.h),
 
-                Text(
-                  "Rahul Sharma",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                CustomTitleText(text: "Rahul Sharma", fontSize: 22.sp, color: Colors.white),
 
                 SizedBox(height: 2.h),
 
-                Text(
-                  "Shree Textiles",
-                  style: TextStyle(color: Colors.white70, fontSize: 16.sp),
-                ),
+                CustomSubText(text: "Shree Textiles", fontSize: 16.sp, color: Colors.white70),
               ],
             ),
           ),
 
           Column(
             children: [
-              Text(
-                "42",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              CustomText(text: "42", fontSize: 24.sp, fontWeight: FontWeight.bold, color: Colors.white),
 
-              Text("orders", style: TextStyle(color: Colors.white70)),
+              CustomSubText(text: "orders", color: Colors.white70),
             ],
           ),
         ],
@@ -247,17 +210,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           SizedBox(height: 20.h),
 
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
-          ),
+          CustomTitleText(text: title, fontSize: 20.sp),
 
           SizedBox(height: 6.h),
 
-          Text(
-            subtitle,
-            style: TextStyle(color: AppColors.labelGrey, fontSize: 15.sp),
-          ),
+          CustomSubText(text: subtitle, fontSize: 15.sp),
         ],
       ),
     );
@@ -288,20 +245,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  order["name"],
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                  ),
-                ),
+                CustomTitleText(text: order["name"], fontSize: 20.sp),
 
                 SizedBox(height: 4.h),
 
-                Text(
-                  order["subtitle"],
-                  style: TextStyle(color: AppColors.labelGrey, fontSize: 15.sp),
-                ),
+                CustomSubText(text: order["subtitle"], fontSize: 15.sp),
               ],
             ),
           ),
@@ -312,13 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: order["statusBg"],
               borderRadius: BorderRadius.circular(18.r),
             ),
-            child: Text(
-              order["status"],
-              style: TextStyle(
-                color: order["statusColor"],
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: CustomText(text: order["status"], fontWeight: FontWeight.w600, color: order["statusColor"]),
           ),
         ],
       ),
@@ -339,15 +281,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "OrderDesk",
-              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
-            ),
+            CustomTitleText(text: "OrderDesk", fontSize: 22.sp),
 
-            Text(
-              "Manager view",
-              style: TextStyle(color: AppColors.labelGrey, fontSize: 15.sp),
-            ),
+            CustomSubText(text: "Manager view", fontSize: 15.sp),
           ],
         ),
 
@@ -416,14 +352,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: selected ? AppColors.primary : Colors.white,
                 borderRadius: BorderRadius.circular(18.r),
               ),
-              child: Text(
-                companies[index],
-                style: TextStyle(
-                  color: selected ? Colors.white : Colors.black87,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                ),
-              ),
+              child: CustomText(text: companies[index], fontSize: 16.sp, fontWeight: FontWeight.w600, color: selected ? Colors.white : Colors.black87),
             ),
           );
         },
@@ -531,17 +460,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           SizedBox(height: 22.h),
 
-          Text(
-            value,
-            style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
-          ),
+          CustomStatText(text: value, fontSize: 22.sp),
 
           SizedBox(height: 4.h),
 
-          Text(
-            label,
-            style: TextStyle(fontSize: 15.sp, color: AppColors.labelGrey),
-          ),
+          CustomSubText(text: label, fontSize: 15.sp),
         ],
       ),
     );

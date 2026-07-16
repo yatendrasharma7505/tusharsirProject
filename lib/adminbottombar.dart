@@ -5,6 +5,7 @@ import 'package:tusharsirproject/ReportScreen/ReportScreen.dart';
 import 'package:tusharsirproject/Screens/SettingScreen/SetingScreen.dart';
 import 'package:tusharsirproject/TeamScreen/TeamScreen.dart';
 import 'Utils/app_colors.dart';
+import 'Widgets/custom_text.dart';
 
 class Adminbottombar extends StatefulWidget {
   final int index;
@@ -120,14 +121,7 @@ class _AdminbottombarState extends State<Adminbottombar> {
             color: selected ? AppColors.primary : AppColors.hintGrey,
           ),
           SizedBox(height: 4.h),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-              color: selected ? AppColors.primary : AppColors.hintGrey,
-            ),
-          ),
+          CustomText(text: label, fontSize: 11.sp, fontWeight: selected ? FontWeight.w600 : FontWeight.normal, color: selected ? AppColors.primary : AppColors.hintGrey),
         ],
       ),
     );

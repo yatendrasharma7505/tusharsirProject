@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
+import '../../Widgets/custom_text.dart';
 
 class _NotificationItem {
   final IconData icon;
@@ -112,14 +113,8 @@ class Notificationscreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Notifications',
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '2 unread',
-              style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
-            ),
+            CustomTitleText(text: 'Notifications', fontSize: 20.sp),
+            CustomSubText(text: '2 unread', fontSize: 13.sp),
           ],
         ),
       ],
@@ -155,31 +150,13 @@ class Notificationscreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        item.title,
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: CustomTitleText(text: item.title, fontSize: 15.sp),
                     ),
-                    Text(
-                      item.time,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.hintGrey,
-                      ),
-                    ),
+                    CustomSubText(text: item.time, fontSize: 12.sp, color: AppColors.hintGrey),
                   ],
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  item.subtitle,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: AppColors.labelGrey,
-                  ),
-                ),
+                CustomSubText(text: item.subtitle, fontSize: 13.sp),
               ],
             ),
           ),

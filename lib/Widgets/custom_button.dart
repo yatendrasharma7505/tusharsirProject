@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Utils/app_colors.dart';
+import 'custom_text.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
@@ -32,14 +33,7 @@ class CustomButton extends StatelessWidget {
           Icon(leadingIcon, size: 18.sp, color: leadingIconColor ?? textColor),
           SizedBox(width: 8.w),
         ],
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: filled ? 16.sp : 15.sp,
-            fontWeight: FontWeight.w600,
-            color: textColor,
-          ),
-        ),
+        CustomText(text: label, fontSize: filled ? 16.sp : 15.sp, fontWeight: FontWeight.w600, color: textColor),
         if (trailingIcon != null) ...[
           SizedBox(width: 8.w),
           Icon(trailingIcon, size: 18.sp, color: textColor),

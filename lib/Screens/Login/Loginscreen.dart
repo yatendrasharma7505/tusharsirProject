@@ -4,6 +4,7 @@ import '../../Model/company_model.dart';
 import '../../Utils/app_colors.dart';
 import '../../Widgets/company_tile.dart';
 import '../../Widgets/custom_button.dart';
+import '../../Widgets/custom_text.dart';
 import '../../Widgets/custom_text_field.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -194,14 +195,7 @@ class _LoginscreenState extends State<Loginscreen> {
       children: [
         Icon(icon, size: 18.sp, color: AppColors.labelGrey),
         SizedBox(width: 8.w),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: AppColors.labelGrey,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        CustomText(text: text, fontSize: 14.sp, color: AppColors.labelGrey, fontWeight: FontWeight.w500),
       ],
     );
   }
@@ -212,15 +206,7 @@ class _LoginscreenState extends State<Loginscreen> {
         const Expanded(child: Divider(color: AppColors.borderGrey)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Text(
-            'DEMO ACCESS',
-            style: TextStyle(
-              fontSize: 12.sp,
-              letterSpacing: 1,
-              color: AppColors.hintGrey,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: CustomText(text: 'DEMO ACCESS', fontSize: 12.sp, color: AppColors.hintGrey, fontWeight: FontWeight.w600),
         ),
         const Expanded(child: Divider(color: AppColors.borderGrey)),
       ],

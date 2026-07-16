@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Model/order_model.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/app_routes.dart';
+import '../../Widgets/custom_text.dart';
 
 class Orderscreen extends StatefulWidget {
   const Orderscreen({super.key});
@@ -40,10 +41,7 @@ class _OrderscreenState extends State<Orderscreen> {
             SizedBox(height: 16.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                '${orders.length} orders',
-                style: TextStyle(fontSize: 14.sp, color: AppColors.labelGrey),
-              ),
+              child: CustomSubText(text: '${orders.length} orders', fontSize: 14.sp),
             ),
             SizedBox(height: 8.h),
             Expanded(
@@ -73,14 +71,8 @@ class _OrderscreenState extends State<Orderscreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'All orders',
-              style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '${OrderModel.sampleOrders.length} total',
-              style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
-            ),
+            CustomTitleText(text: 'All orders', fontSize: 19.sp),
+            CustomSubText(text: '${OrderModel.sampleOrders.length} total', fontSize: 13.sp),
           ],
         ),
         const Spacer(),
@@ -201,61 +193,30 @@ class _OrderscreenState extends State<Orderscreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text(
-                        order.customerName,
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: CustomTitleText(text: order.customerName, fontSize: 15.sp),
                     ),
                     _buildStatusPill(order),
                   ],
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  '${order.product} · ${order.pieces} pcs · ${order.orderNumber}',
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: AppColors.labelGrey,
-                  ),
-                ),
+                CustomSubText(text: '${order.product} · ${order.pieces} pcs · ${order.orderNumber}', fontSize: 13.sp),
                 SizedBox(height: 10.h),
                 Row(
                   children: [
                     CircleAvatar(
                       radius: 10.r,
                       backgroundColor: order.assigneeColor,
-                      child: Text(
-                        order.assigneeInitials,
-                        style: TextStyle(
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: CustomText(text: order.assigneeInitials, fontSize: 9.sp, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     SizedBox(width: 6.w),
                     Expanded(
-                      child: Text(
-                        order.assigneeName,
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: Colors.black87,
-                        ),
-                      ),
+                      child: CustomText(text: order.assigneeName, fontSize: 13.sp),
                     ),
                     if (order.isUrgent) ...[
                       _buildUrgentPill(),
                       SizedBox(width: 8.w),
                     ],
-                    Text(
-                      order.time,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.hintGrey,
-                      ),
-                    ),
+                    CustomSubText(text: order.time, fontSize: 12.sp, color: AppColors.hintGrey),
                   ],
                 ),
               ],
@@ -273,14 +234,7 @@ class _OrderscreenState extends State<Orderscreen> {
         color: order.statusBackground,
         borderRadius: BorderRadius.circular(20.r),
       ),
-      child: Text(
-        order.status,
-        style: TextStyle(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w600,
-          color: order.statusColor,
-        ),
-      ),
+      child: CustomText(text: order.status, fontSize: 12.sp, fontWeight: FontWeight.w600, color: order.statusColor),
     );
   }
 
@@ -300,14 +254,7 @@ class _OrderscreenState extends State<Orderscreen> {
             color: AppColors.logoutRed,
           ),
           SizedBox(width: 3.w),
-          Text(
-            'Urgent',
-            style: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.logoutRed,
-            ),
-          ),
+          CustomText(text: 'Urgent', fontSize: 11.sp, fontWeight: FontWeight.w600, color: AppColors.logoutRed),
         ],
       ),
     );

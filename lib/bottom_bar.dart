@@ -5,6 +5,7 @@ import 'Screens/Order/Orderscreen.dart';
 import 'Screens/Profile/Profilescreen.dart';
 import 'Screens/Rank/Rankscreen.dart';
 import 'Utils/app_colors.dart';
+import 'Widgets/custom_text.dart';
 
 class BottomBar extends StatefulWidget {
   final int index;
@@ -120,14 +121,7 @@ class _BottomBarState extends State<BottomBar> {
             color: selected ? AppColors.primary : AppColors.hintGrey,
           ),
           SizedBox(height: 4.h),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11.sp,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-              color: selected ? AppColors.primary : AppColors.hintGrey,
-            ),
-          ),
+          CustomText(text: label, fontSize: 11.sp, fontWeight: selected ? FontWeight.w600 : FontWeight.normal, color: selected ? AppColors.primary : AppColors.hintGrey),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Utils/app_colors.dart';
 import '../../Widgets/custom_button.dart';
+import '../../Widgets/custom_text.dart';
 import '../../Widgets/custom_text_field.dart';
 
 class AddOrderManualscreen extends StatefulWidget {
@@ -83,7 +84,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                     Icons.camera_alt_outlined,
                     color: AppColors.primary,
                   ),
-                  title: const Text('Take a photo'),
+                   title: CustomText(text: 'Take a photo'),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImage(ImageSource.camera);
@@ -94,7 +95,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                     Icons.photo_library_outlined,
                     color: AppColors.primary,
                   ),
-                  title: const Text('Choose from gallery'),
+                   title: CustomText(text: 'Choose from gallery'),
                   onTap: () {
                     Navigator.pop(context);
                     _pickImage(ImageSource.gallery);
@@ -106,10 +107,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                       Icons.delete_outline,
                       color: AppColors.logoutRed,
                     ),
-                    title: const Text(
-                      'Remove photo',
-                      style: TextStyle(color: AppColors.logoutRed),
-                    ),
+                    title: CustomText(text: 'Remove photo', color: AppColors.logoutRed),
                     onTap: () {
                       Navigator.pop(context);
                       setState(() => _productPhoto = null);
@@ -279,14 +277,8 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Add manual order',
-              style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'Type the details',
-              style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
-            ),
+            CustomTitleText(text: 'Add manual order', fontSize: 19.sp),
+            CustomSubText(text: 'Type the details', fontSize: 13.sp),
           ],
         ),
       ],
@@ -353,15 +345,9 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
                 ),
               ),
               SizedBox(height: 14.h),
-              Text(
-                'Upload product photo',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-              ),
+              CustomTitleText(text: 'Upload product photo', fontSize: 16.sp),
               SizedBox(height: 4.h),
-              Text(
-                'Tap to take or choose a photo',
-                style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
-              ),
+              CustomSubText(text: 'Tap to take or choose a photo', fontSize: 13.sp),
             ],
           ),
         ),
@@ -374,14 +360,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
       children: [
         Icon(icon, size: 18.sp, color: AppColors.labelGrey),
         SizedBox(width: 8.w),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: AppColors.labelGrey,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        CustomText(text: text, fontSize: 14.sp, color: AppColors.labelGrey, fontWeight: FontWeight.w500),
       ],
     );
   }
@@ -439,14 +418,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
               ),
               SizedBox(width: 6.w),
             ],
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
-                color: selected ? AppColors.primary : AppColors.labelGrey,
-              ),
-            ),
+            CustomText(text: label, fontSize: 15.sp, fontWeight: FontWeight.w600, color: selected ? AppColors.primary : AppColors.labelGrey),
           ],
         ),
       ),
@@ -485,7 +457,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
               items: options
                   .map(
                     (option) =>
-                        DropdownMenuItem(value: option, child: Text(option)),
+                        DropdownMenuItem(value: option, child: CustomText(text: option)),
                   )
                   .toList(),
               onChanged: (newValue) {

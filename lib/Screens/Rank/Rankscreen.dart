@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/app_routes.dart';
+import '../../Widgets/custom_text.dart';
 
 class Rankscreen extends StatefulWidget {
   const Rankscreen({super.key});
@@ -48,14 +49,8 @@ class _RankscreenState extends State<Rankscreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Leaderboard',
-              style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "Who's winning today",
-              style: TextStyle(fontSize: 13.sp, color: AppColors.labelGrey),
-            ),
+            CustomTitleText(text: 'Leaderboard', fontSize: 19.sp),
+            CustomSubText(text: "Who's winning today", fontSize: 13.sp),
           ],
         ),
         const Spacer(),
@@ -121,15 +116,7 @@ class _RankscreenState extends State<Rankscreen> {
                         ]
                       : null,
                 ),
-                child: Text(
-                  _filters[index],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: selected ? Colors.black87 : AppColors.hintGrey,
-                  ),
-                ),
+                child: CustomText(text: _filters[index], textAlign: TextAlign.center, fontSize: 14.sp, fontWeight: FontWeight.w600, color: selected ? Colors.black87 : AppColors.hintGrey),
               ),
             ),
           );
@@ -205,14 +192,7 @@ class _RankscreenState extends State<Rankscreen> {
               topRight: Radius.circular(16.r),
             ),
           ),
-          child: Text(
-            rankLabel,
-            style: TextStyle(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          child: CustomText(text: rankLabel, fontSize: 22.sp, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ],
     );
@@ -243,29 +223,12 @@ class _RankscreenState extends State<Rankscreen> {
           child: CircleAvatar(
             radius: 26.r,
             backgroundColor: avatarColor,
-            child: Text(
-              initials,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
-              ),
-            ),
+            child: CustomText(text: initials, fontSize: 15.sp, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
         SizedBox(height: 8.h),
-        Text(
-          name,
-          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
-        ),
-        Text(
-          score,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary,
-          ),
-        ),
+        CustomText(text: name, fontSize: 14.sp, fontWeight: FontWeight.w600),
+        CustomText(text: score, fontSize: 14.sp, fontWeight: FontWeight.bold, color: AppColors.primary),
       ],
     );
   }
@@ -342,27 +305,13 @@ class _RankscreenState extends State<Rankscreen> {
         CircleAvatar(
           radius: 14.r,
           backgroundColor: rankBackground,
-          child: Text(
-            '$rank',
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-              color: rankColor,
-            ),
-          ),
+          child: CustomText(text: '$rank', fontSize: 13.sp, fontWeight: FontWeight.bold, color: rankColor),
         ),
         SizedBox(width: 12.w),
         CircleAvatar(
           radius: 18.r,
           backgroundColor: avatarColor,
-          child: Text(
-            initials,
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+          child: CustomText(text: initials, fontSize: 13.sp, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         SizedBox(width: 12.w),
         Expanded(
@@ -372,14 +321,7 @@ class _RankscreenState extends State<Rankscreen> {
               Row(
                 children: [
                   Flexible(
-                    child: Text(
-                      name,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: CustomText(text: name, overflow: TextOverflow.ellipsis, fontSize: 15.sp, fontWeight: FontWeight.w600),
                   ),
                   if (showTopBadge) ...[SizedBox(width: 8.w), _buildTopBadge()],
                 ],
@@ -401,14 +343,8 @@ class _RankscreenState extends State<Rankscreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
-              '$score',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '$pieces pcs',
-              style: TextStyle(fontSize: 12.sp, color: AppColors.labelGrey),
-            ),
+            CustomStatText(text: '$score', fontSize: 16.sp),
+            CustomSubText(text: '$pieces pcs', fontSize: 12.sp),
           ],
         ),
       ],
@@ -427,14 +363,7 @@ class _RankscreenState extends State<Rankscreen> {
         children: [
           Icon(Icons.star, size: 11.sp, color: const Color(0xFFE0973D)),
           SizedBox(width: 3.w),
-          Text(
-            'TOP',
-            style: TextStyle(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFFE0973D),
-            ),
-          ),
+          CustomText(text: 'TOP', fontSize: 10.sp, fontWeight: FontWeight.bold, color: const Color(0xFFE0973D)),
         ],
       ),
     );

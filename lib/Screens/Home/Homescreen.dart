@@ -130,7 +130,7 @@ class Homescreen extends StatelessWidget {
                     fontSize: 16.sp,
                   ),
                   SizedBox(width: 6.w),
-                  Text('👋', style: TextStyle(fontSize: 16.sp)),
+                  CustomText(text: '👋', fontSize: 16.sp),
                 ],
               ),
             ],
@@ -139,14 +139,7 @@ class Homescreen extends StatelessWidget {
         CircleAvatar(
           radius: 20.r,
           backgroundColor: AppColors.primary,
-          child: Text(
-            'RS',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12.sp,
-            ),
-          ),
+          child: CustomText(text: 'RS', fontSize: 12.sp, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ],
     );

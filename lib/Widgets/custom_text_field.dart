@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Utils/app_colors.dart';
+import 'custom_text.dart';
 
 class CustomTextField extends StatelessWidget {
   final IconData icon;
@@ -33,14 +34,7 @@ class CustomTextField extends StatelessWidget {
           children: [
             Icon(icon, size: 18.sp, color: AppColors.labelGrey),
             SizedBox(width: 8.w),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.labelGrey,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            CustomText(text: label, fontSize: 14.sp, color: AppColors.labelGrey, fontWeight: FontWeight.w500),
           ],
         ),
         SizedBox(height: 8.h),

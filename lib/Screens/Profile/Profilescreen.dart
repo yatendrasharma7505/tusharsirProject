@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Utils/app_colors.dart';
+import '../../Widgets/custom_text.dart';
 
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key});
@@ -46,10 +47,7 @@ class _ProfilescreenState extends State<Profilescreen> {
           child: Icon(Icons.crop_free, color: Colors.white, size: 20.sp),
         ),
         SizedBox(width: 12.w),
-        Text(
-          'My profile',
-          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-        ),
+        CustomTitleText(text: 'My profile', fontSize: 20.sp),
         const Spacer(),
         Stack(
           clipBehavior: Clip.none,
@@ -110,14 +108,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                 child: CircleAvatar(
                   radius: 28.r,
                   backgroundColor: Colors.white.withValues(alpha: 0.2),
-                  child: Text(
-                    'RS',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                    ),
-                  ),
+                  child: CustomText(text: 'RS', fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
               SizedBox(width: 14.w),
@@ -125,30 +116,11 @@ class _ProfilescreenState extends State<Profilescreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Rahul Sharma',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.sp,
-                      ),
-                    ),
+                    CustomTitleText(text: 'Rahul Sharma', fontSize: 17.sp, color: Colors.white),
                     SizedBox(height: 2.h),
-                    Text(
-                      'Senior Packer · E01',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.75),
-                        fontSize: 13.sp,
-                      ),
-                    ),
+                    CustomSubText(text: 'Senior Packer · E01', fontSize: 13.sp, color: Colors.white.withValues(alpha: 0.75)),
                     SizedBox(height: 2.h),
-                    Text(
-                      '+91 98110 23401',
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.75),
-                        fontSize: 13.sp,
-                      ),
-                    ),
+                    CustomSubText(text: '+91 98110 23401', fontSize: 13.sp, color: Colors.white.withValues(alpha: 0.75)),
                   ],
                 ),
               ),
@@ -173,14 +145,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                Text(
-                  'Shree Textiles',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                  ),
-                ),
+                CustomText(text: 'Shree Textiles', fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white),
               ],
             ),
           ),
@@ -210,15 +175,9 @@ class _ProfilescreenState extends State<Profilescreen> {
       ),
       child: Column(
         children: [
-          Text(
-            value,
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-          ),
+          CustomStatText(text: value, fontSize: 18.sp),
           SizedBox(height: 4.h),
-          Text(
-            label,
-            style: TextStyle(fontSize: 12.sp, color: AppColors.labelGrey),
-          ),
+          CustomSubText(text: label, fontSize: 12.sp),
         ],
       ),
     );
@@ -241,34 +200,15 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: AppColors.activeBadgeBackground,
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Text(
-              'ST',
-              style: TextStyle(
-                color: AppColors.activeBadgeText,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
+            child: CustomText(text: 'ST', fontSize: 14.sp, fontWeight: FontWeight.bold, color: AppColors.activeBadgeText),
           ),
           SizedBox(width: 14.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Company',
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: AppColors.labelGrey,
-                  ),
-                ),
-                Text(
-                  'Shree Textiles',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                CustomSubText(text: 'Company', fontSize: 13.sp),
+                CustomTitleText(text: 'Shree Textiles', fontSize: 16.sp),
               ],
             ),
           ),
@@ -278,14 +218,7 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: AppColors.activeBadgeBackground,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Text(
-              'Active',
-              style: TextStyle(
-                color: AppColors.activeBadgeText,
-                fontWeight: FontWeight.w600,
-                fontSize: 13.sp,
-              ),
-            ),
+            child: CustomText(text: 'Active', fontSize: 13.sp, fontWeight: FontWeight.w600, color: AppColors.activeBadgeText),
           ),
         ],
       ),
@@ -302,10 +235,7 @@ class _ProfilescreenState extends State<Profilescreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'View the app as',
-            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-          ),
+          CustomTitleText(text: 'View the app as', fontSize: 15.sp),
           SizedBox(height: 12.h),
           Container(
             padding: EdgeInsets.all(4.r),
@@ -371,14 +301,7 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: selected ? Colors.black87 : AppColors.hintGrey,
             ),
             SizedBox(width: 6.w),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: selected ? Colors.black87 : AppColors.hintGrey,
-              ),
-            ),
+            CustomText(text: label, fontSize: 14.sp, fontWeight: FontWeight.w600, color: selected ? Colors.black87 : AppColors.hintGrey),
           ],
         ),
       ),
@@ -403,14 +326,7 @@ class _ProfilescreenState extends State<Profilescreen> {
           children: [
             Icon(Icons.logout, color: AppColors.logoutRed, size: 18.sp),
             SizedBox(width: 8.w),
-            Text(
-              'Log out',
-              style: TextStyle(
-                color: AppColors.logoutRed,
-                fontWeight: FontWeight.bold,
-                fontSize: 15.sp,
-              ),
-            ),
+            CustomText(text: 'Log out', fontSize: 15.sp, fontWeight: FontWeight.bold, color: AppColors.logoutRed),
           ],
         ),
       ),

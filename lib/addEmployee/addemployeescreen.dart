@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Utils/app_colors.dart';
+import '../../Widgets/custom_text.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
   const AddEmployeeScreen({super.key});
@@ -140,10 +141,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           // Create Employee API
         },
         icon: Icon(Icons.person_add_alt_1, size: 22.sp),
-        label: Text(
-          "Create employee",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
-        ),
+        label: CustomText(text: "Create employee", fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -180,23 +178,13 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 color: company["bg"],
                 borderRadius: BorderRadius.circular(18.r),
               ),
-              child: Text(
-                company["short"],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.sp,
-                  color: company["text"],
-                ),
-              ),
+              child: CustomText(text: company["short"], fontSize: 20.sp, fontWeight: FontWeight.bold, color: company["text"]),
             ),
 
             SizedBox(width: 18.w),
 
             Expanded(
-              child: Text(
-                company["name"],
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-              ),
+              child: CustomText(text: company["name"], fontSize: 18.sp, fontWeight: FontWeight.w600),
             ),
 
             AnimatedContainer(
@@ -240,15 +228,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Add employee",
-              style: TextStyle(fontSize: 21.sp, fontWeight: FontWeight.bold),
-            ),
+            CustomTitleText(text: "Add employee", fontSize: 21.sp),
 
-            Text(
-              "Assign a company",
-              style: TextStyle(fontSize: 14.sp, color: AppColors.labelGrey),
-            ),
+            CustomSubText(text: "Assign a company", fontSize: 14.sp),
           ],
         ),
       ],
@@ -266,14 +248,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
 
         SizedBox(width: 8.w),
 
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.labelGrey,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        CustomText(text: title, fontSize: 16.sp, color: AppColors.labelGrey, fontWeight: FontWeight.w500),
       ],
     );
   }
@@ -323,7 +298,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           icon: const Icon(Icons.keyboard_arrow_down),
           style: TextStyle(fontSize: 17.sp, color: Colors.black87),
           items: roles.map((e) {
-            return DropdownMenuItem(value: e, child: Text(e));
+            return DropdownMenuItem(value: e, child: CustomText(text: e));
           }).toList(),
           onChanged: (value) {
             setState(() {
