@@ -8,7 +8,7 @@ import 'Utils/app_colors.dart';
 
 class BottomBar extends StatefulWidget {
   final int index;
-   BottomBar({super.key,this.index=0});
+  BottomBar({super.key, this.index = 0});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -19,9 +19,8 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   void initState() {
-   
     super.initState();
-     _selectedIndex = widget.index;
+    _selectedIndex = widget.index;
   }
 
   final List<Widget> _screens = const [
@@ -76,7 +75,11 @@ class _BottomBarState extends State<BottomBar> {
                 label: 'Order',
               ),
             ),
-            _buildAddButton(),
+            GestureDetector(
+              onTap: () =>
+                  Navigator.pushNamed(context, "/addOrderManualscreen"),
+              child: _buildAddButton(),
+            ),
             Expanded(
               child: _buildNavItem(
                 index: 2,
@@ -131,21 +134,18 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   Widget _buildAddButton() {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        width: 60.w,
-        height: 44.w,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.primary, AppColors.background],
-          ),
-          borderRadius: BorderRadius.circular(14.r),
+    return Container(
+      width: 60.w,
+      height: 44.w,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primary, AppColors.background],
         ),
-        child: Icon(Icons.add, color: Colors.white, size: 24.sp),
+        borderRadius: BorderRadius.circular(14.r),
       ),
+      child: Icon(Icons.add, color: Colors.white, size: 24.sp),
     );
   }
 }

@@ -31,7 +31,7 @@ class Homescreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   _buildDailyTargetCard(),
                   SizedBox(height: 20.h),
-                  _buildQuickActionsRow(),
+                  _buildQuickActionsRow(context),
                   SizedBox(height: 20.h),
                   _buildLeaderboardHeader(context),
                   SizedBox(height: 12.h),
@@ -359,7 +359,7 @@ class Homescreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionsRow() {
+  Widget _buildQuickActionsRow(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -374,13 +374,17 @@ class Homescreen extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         Expanded(
-          child: _buildActionCard(
-            background: const Color(0xFFF4F9F7),
-            border: const Color(0xFFDCEEE4),
-            iconBackground: AppColors.primary,
-            icon: Icons.add,
-            title: 'Add manual order',
-            subtitle: 'Type it in yourself',
+          child: GestureDetector(
+            onTap: () => Navigator.pushNamed(context, "/addOrderManualscreen"),
+
+            child: _buildActionCard(
+              background: const Color(0xFFF4F9F7),
+              border: const Color(0xFFDCEEE4),
+              iconBackground: AppColors.primary,
+              icon: Icons.add,
+              title: 'Add manual order',
+              subtitle: 'Type it in yourself',
+            ),
           ),
         ),
       ],
@@ -413,7 +417,7 @@ class Homescreen extends StatelessWidget {
           SizedBox(height: 12.h),
           Text(
             title,
-            style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 2.h),
           Text(

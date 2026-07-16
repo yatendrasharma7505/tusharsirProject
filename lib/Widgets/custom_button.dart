@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final IconData? trailingIcon;
   final Color? leadingIconColor;
   final bool filled;
+  final bool enabled;
 
   const CustomButton({
     super.key,
@@ -18,6 +19,7 @@ class CustomButton extends StatelessWidget {
     this.trailingIcon,
     this.leadingIconColor,
     this.filled = true,
+    this.enabled = true,
   });
 
   @override
@@ -47,9 +49,10 @@ class CustomButton extends StatelessWidget {
 
     if (filled) {
       return ElevatedButton(
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: enabled ? AppColors.primary : AppColors.hintGrey,
+          disabledBackgroundColor: AppColors.hintGrey,
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.r),

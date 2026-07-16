@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../Controller/login_controller.dart';
+import '../../Model/company_model.dart';
 import '../../Utils/app_colors.dart';
 import '../../Widgets/company_tile.dart';
 import '../../Widgets/custom_button.dart';
@@ -14,7 +14,8 @@ class Loginscreen extends StatefulWidget {
 }
 
 class _LoginscreenState extends State<Loginscreen> {
-  final LoginController _controller = LoginController();
+  final List<CompanyModel> _companies = CompanyModel.sampleCompanies;
+  int _selectedCompanyIndex = 0;
 
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
@@ -23,7 +24,6 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
     _idController.dispose();
     _fullNameController.dispose();
     _phoneController.dispose();
@@ -105,51 +105,43 @@ class _LoginscreenState extends State<Loginscreen> {
   }
 
   Widget _buildFormTab({required bool isSignIn}) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) {
-        return SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (isSignIn)
-                ..._buildSignInFields()
-              else
-                ..._buildRegisterFields(),
-              SizedBox(height: 20.h),
-              _buildSectionLabel(
-                Icons.business_outlined,
-                isSignIn ? 'Your company' : 'Register under company',
-              ),
-              SizedBox(height: 8.h),
-              ...List.generate(
-                _controller.companies.length,
-                (index) => Padding(
-                  padding: EdgeInsets.only(bottom: 12.h),
-                  child: CompanyTile(
-                    company: _controller.companies[index],
-                    selected: _controller.selectedCompanyIndex == index,
-                    onTap: () => _controller.selectCompany(index),
-                  ),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              CustomButton(
-                label: isSignIn ? 'Sign in' : 'Create account',
-                trailingIcon: Icons.arrow_forward,
-                onPressed: () {
-                  Navigator.pushNamed(context, "/bottombar");
-                },
-              ),
-              SizedBox(height: 20.h),
-              _buildDemoDivider(),
-              SizedBox(height: 16.h),
-              _buildDemoButtons(),
-            ],
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (isSignIn) ..._buildSignInFields() else ..._buildRegisterFields(),
+          SizedBox(height: 20.h),
+          _buildSectionLabel(
+            Icons.business_outlined,
+            isSignIn ? 'Your company' : 'Register under company',
           ),
-        );
-      },
+          SizedBox(height: 8.h),
+          ...List.generate(
+            _companies.length,
+            (index) => Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: CompanyTile(
+                company: _companies[index],
+                selected: _selectedCompanyIndex == index,
+                onTap: () => setState(() => _selectedCompanyIndex = index),
+              ),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          CustomButton(
+            label: isSignIn ? 'Sign in' : 'Create account',
+            trailingIcon: Icons.arrow_forward,
+            onPressed: () {
+              Navigator.pushNamed(context, "/bottombar");
+            },
+          ),
+          SizedBox(height: 20.h),
+          _buildDemoDivider(),
+          SizedBox(height: 16.h),
+          _buildDemoButtons(),
+        ],
+      ),
     );
   }
 

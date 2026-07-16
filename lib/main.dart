@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tusharsirproject/Screens/AddOrderManual/AddOrderManualscreen.dart';
 import 'package:tusharsirproject/Screens/Home/Homescreen.dart';
 import 'package:tusharsirproject/Screens/Login/Loginscreen.dart';
 import 'package:tusharsirproject/Screens/Notification/Notificationscreen.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             "/bottombar": (context) => BottomBar(),
             "/homescreen": (context) => Homescreen(),
             "/orderscreen": (context) => Orderscreen(),
-            // "/bottombar":(context) => BottomBar(),
+            "/addOrderManualscreen": (context) => AddOrderManualscreen(),
             "/rankscreen": (context) => Rankscreen(),
             "/profilescreen": (context) => Profilescreen(),
             "/notificationscreen": (context) => Notificationscreen(),
