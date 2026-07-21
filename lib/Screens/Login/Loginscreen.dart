@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../Cubits/auth/auth_cubit.dart';
+import '../../Cubits/auth/auth_state.dart';
 import '../../Utils/app_colors.dart';
+import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/custom_text.dart';
 import '../../Widgets/custom_text_field.dart';
-import '../../Utils/app_haptics.dart';
 
 class Loginscreen extends StatefulWidget {
   const Loginscreen({super.key});
@@ -18,6 +21,18 @@ class _LoginscreenState extends State<Loginscreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  void _checkAuth() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthCubit>().checkAuth();
+    });
+  }
+
+  @override
   void dispose() {
     _idController.dispose();
     _passwordController.dispose();
@@ -26,12 +41,22 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.status == AuthStatus.authenticated) {
+          Navigator.pushReplacementNamed(context, "/bottombar");
+        }
+      },
+      child: _buildScaffold(),
+    );
+  }
+
+  Widget _buildScaffold() {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            // _buildHeader(),
             Expanded(child: Center(child: _buildLoginCard())),
           ],
         ),
@@ -75,7 +100,6 @@ class _LoginscreenState extends State<Loginscreen> {
               CustomTextField(
                 icon: Icons.person_outline_rounded,
                 label: 'Employee ID or phone',
-                // hint: 'E01 or +91...',
                 controller: _idController,
               ),
               SizedBox(height: 20.h),
@@ -86,72 +110,44 @@ class _LoginscreenState extends State<Loginscreen> {
                 obscureText: true,
               ),
               SizedBox(height: 32.h),
-              CustomButton(
-                label: 'Sign in',
-                trailingIcon: Icons.arrow_forward_rounded,
-                onPressed: () {
-                  AppHaptics.tap();
-                  Navigator.pushNamed(context, "/bottombar");
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state.status == AuthStatus.authenticated) {
+                    Navigator.pushReplacementNamed(context, "/bottombar");
+                  }
+                },
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      CustomButton(
+                        label: state.status == AuthStatus.loading ? 'Signing in...' : 'Sign in',
+                        trailingIcon: Icons.arrow_forward_rounded,
+                        enabled: state.status != AuthStatus.loading,
+                        onPressed: () {
+                          AppHaptics.tap();
+                          context.read<AuthCubit>().login(
+                            _idController.text.trim(),
+                            _passwordController.text,
+                          );
+                        },
+                      ),
+                      if (state.status == AuthStatus.error)
+                        Padding(
+                          padding: EdgeInsets.only(top: 12.h),
+                          child: CustomText(
+                            text: state.errorMessage ?? 'Login failed',
+                            fontSize: 13.sp,
+                            color: AppColors.logoutRed,
+                          ),
+                        ),
+                    ],
+                  );
                 },
               ),
-              SizedBox(height: 28.h),
-              // _buildDemoSection(),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDemoSection() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            const Expanded(child: Divider(color: AppColors.borderGrey)),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
-              child: CustomText(
-                text: 'DEMO ACCESS',
-                fontSize: 11.sp,
-                color: AppColors.hintGrey,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const Expanded(child: Divider(color: AppColors.borderGrey)),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        Row(
-          children: [
-            Expanded(
-              child: CustomButton(
-                filled: false,
-                leadingIcon: Icons.person_outline_rounded,
-                leadingIconColor: Colors.black54,
-                label: 'Employee',
-                onPressed: () {
-                  AppHaptics.tap();
-                  Navigator.pushNamed(context, "/bottombar");
-                },
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: CustomButton(
-                filled: false,
-                leadingIcon: Icons.emoji_events_outlined,
-                leadingIconColor: Colors.orange,
-                label: 'Admin',
-                onPressed: () {
-                  AppHaptics.tap();
-                  Navigator.pushNamed(context, "/adminbottombar");
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

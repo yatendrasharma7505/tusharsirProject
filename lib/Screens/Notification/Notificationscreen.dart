@@ -1,112 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../Cubits/notification/notification_cubit.dart';
+import '../../Cubits/notification/notification_state.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/app_haptics.dart';
 import '../../Widgets/custom_text.dart';
 
-class _NotificationItem {
-  final IconData icon;
-  final Color iconBackground;
-  final Color iconColor;
-  final String title;
-  final String subtitle;
-  final String time;
-  final Color? stripColor;
-
-  const _NotificationItem({
-    required this.icon,
-    required this.iconBackground,
-    required this.iconColor,
-    required this.title,
-    required this.subtitle,
-    required this.time,
-    this.stripColor,
-  });
-}
-
-class Notificationscreen extends StatelessWidget {
+class Notificationscreen extends StatefulWidget {
   const Notificationscreen({super.key});
 
-  static const List<_NotificationItem> _items = [
-    _NotificationItem(
-      icon: Icons.shopping_bag_outlined,
-      iconBackground: Color(0xFFDCEDE9),
-      iconColor: Color(0xFF2E6C64),
-      title: 'New WhatsApp order',
-      subtitle: 'Rajesh Kumar · 50 pcs Kurti — imported by Rahul',
-      time: '2m',
-      stripColor: Color(0xFF2E6C64),
-    ),
-    _NotificationItem(
-      icon: Icons.warning_amber_rounded,
-      iconBackground: Color(0xFFFBE6D8),
-      iconColor: Color(0xFFD2762E),
-      title: 'Possible duplicate',
-      subtitle: 'Rajesh Kumar ordered a similar item 18 min ago',
-      time: '18m',
-      stripColor: Color(0xFFD2762E),
-    ),
-    _NotificationItem(
-      icon: Icons.inventory_2_outlined,
-      iconBackground: Color(0xFFE3E1FB),
-      iconColor: Color(0xFF6C63D6),
-      title: 'Order packed',
-      subtitle: 'OD-1039 marked Packed by Rahul',
-      time: '1h',
-    ),
-    _NotificationItem(
-      icon: Icons.inventory_2_outlined,
-      iconBackground: Color(0xFFE3E1FB),
-      iconColor: Color(0xFF6C63D6),
-      title: 'Order completed',
-      subtitle: 'OD-1038 marked Completed by Sneha',
-      time: '2h',
-    ),
-    _NotificationItem(
-      icon: Icons.trending_up,
-      iconBackground: Color(0xFFDCEDE9),
-      iconColor: Color(0xFF2E6C64),
-      title: 'Daily target 78%',
-      subtitle: '118 of 150 orders done. Keep going!',
-      time: '3h',
-    ),
-  ];
+  @override
+  State<Notificationscreen> createState() => _NotificationscreenState();
+}
+
+class _NotificationscreenState extends State<Notificationscreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationCubit>().loadNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.r),
-              child: _buildTopBar(context),
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (context, state) {
+        final items = state.notifications ?? [];
+        final unread = state.unreadCount;
+        return Scaffold(
+          backgroundColor: AppColors.scaffoldBackground,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.r),
+                  child: _buildTopBar(context, unread),
+                ),
+                if (state.status == NotificationStatus.loading)
+                  const Expanded(child: Center(child: CircularProgressIndicator()))
+                else if (items.isEmpty)
+                  Expanded(child: Center(child: CustomSubText(text: 'No notifications', fontSize: 14.sp)))
+                else
+                  Expanded(
+                    child: ListView.separated(
+                      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+                      itemCount: items.length,
+                      separatorBuilder: (_, _) => SizedBox(height: 12.h),
+                      itemBuilder: (context, index) => _buildNotificationCard(items[index] as Map<String, dynamic>),
+                    ),
+                  ),
+              ],
             ),
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-                itemCount: _items.length,
-                separatorBuilder: (_, _) => SizedBox(height: 12.h),
-                itemBuilder: (context, index) =>
-                    _buildNotificationCard(_items[index]),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildTopBar(BuildContext context) {
+  Widget _buildTopBar(BuildContext context, int unread) {
     return Row(
       children: [
         GestureDetector(
           onTap: () { AppHaptics.tap(); Navigator.of(context).maybePop(); },
           child: CircleAvatar(
-            radius: 20.r,
-            backgroundColor: AppColors.fieldFill,
+            radius: 20.r, backgroundColor: AppColors.fieldFill,
             child: Icon(Icons.chevron_left, size: 22.sp, color: Colors.black87),
           ),
         ),
@@ -115,33 +73,69 @@ class Notificationscreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTitleText(text: 'Notifications', fontSize: 20.sp),
-            CustomSubText(text: '2 unread', fontSize: 13.sp),
+            CustomSubText(text: '$unread unread', fontSize: 13.sp),
           ],
         ),
+        const Spacer(),
+        if (unread > 0)
+          GestureDetector(
+            onTap: () { context.read<NotificationCubit>().markAllAsRead(); },
+            child: CustomText(text: 'Mark all read', fontSize: 13.sp, color: AppColors.primary, fontWeight: FontWeight.w600),
+          ),
       ],
     );
   }
 
-  Widget _buildNotificationCard(_NotificationItem item) {
-    return Container(
+  Widget _buildNotificationCard(Map<String, dynamic> item) {
+    final type = item['type'] as String? ?? '';
+    final title = item['title'] as String? ?? '';
+    final detail = item['detail'] as String? ?? '';
+    final isRead = item['read'] as bool? ?? false;
+    final createdAt = item['createdAt'] as String? ?? '';
+
+    IconData icon;
+    Color iconBackground;
+    Color iconColor;
+    Color? stripColor;
+
+    switch (type) {
+      case 'new_order':
+        icon = Icons.shopping_bag_outlined;
+        iconBackground = const Color(0xFFDCEDE9);
+        iconColor = const Color(0xFF2E6C64);
+        stripColor = const Color(0xFF2E6C64);
+        break;
+      case 'duplicate_alert':
+        icon = Icons.warning_amber_rounded;
+        iconBackground = const Color(0xFFFBE6D8);
+        iconColor = const Color(0xFFD2762E);
+        stripColor = const Color(0xFFD2762E);
+        break;
+      case 'status_change':
+        icon = Icons.inventory_2_outlined;
+        iconBackground = const Color(0xFFE3E1FB);
+        iconColor = const Color(0xFF6C63D6);
+        break;
+      default:
+        icon = Icons.notifications_none;
+        iconBackground = AppColors.fieldFill;
+        iconColor = AppColors.hintGrey;
+    }
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: isRead ? AppColors.card : Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border(
-          left: BorderSide(
-            color: item.stripColor ?? Colors.transparent,
-            width: 3.w,
-          ),
-        ),
+        border: Border(left: BorderSide(color: stripColor ?? Colors.transparent, width: 3.w)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 22.r,
-            backgroundColor: item.iconBackground,
-            child: Icon(item.icon, size: 20.sp, color: item.iconColor),
+            radius: 22.r, backgroundColor: iconBackground,
+            child: Icon(icon, size: 20.sp, color: iconColor),
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -151,18 +145,31 @@ class Notificationscreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomTitleText(text: item.title, fontSize: 15.sp),
+                      child:                       CustomText(text: title, fontSize: 15.sp, fontWeight: isRead ? FontWeight.normal : FontWeight.w600),
                     ),
-                    CustomSubText(text: item.time, fontSize: 12.sp, color: AppColors.hintGrey),
+                    CustomSubText(text: _timeAgo(createdAt), fontSize: 12.sp, color: AppColors.hintGrey),
                   ],
                 ),
                 SizedBox(height: 4.h),
-                CustomSubText(text: item.subtitle, fontSize: 13.sp),
+                CustomSubText(text: detail, fontSize: 13.sp),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _timeAgo(String isoDate) {
+    try {
+      final date = DateTime.parse(isoDate);
+      final diff = DateTime.now().difference(date);
+      if (diff.inMinutes < 1) return 'Now';
+      if (diff.inMinutes < 60) return '${diff.inMinutes}m';
+      if (diff.inHours < 24) return '${diff.inHours}h';
+      return '${diff.inDays}d';
+    } catch (_) {
+      return '';
+    }
   }
 }
