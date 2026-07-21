@@ -12,7 +12,7 @@ class Profilescreen extends StatefulWidget {
 }
 
 class _ProfilescreenState extends State<Profilescreen> {
-  bool _isEmployeeView = true;
+  // bool _isEmployeeView = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,6 @@ class _ProfilescreenState extends State<Profilescreen> {
             SizedBox(height: 16.h),
             _buildCompanyRow(),
             SizedBox(height: 16.h),
-            _buildViewAsCard(),
             SizedBox(height: 16.h),
             _buildLogoutButton(),
           ],
@@ -109,7 +108,12 @@ class _ProfilescreenState extends State<Profilescreen> {
                 child: CircleAvatar(
                   radius: 28.r,
                   backgroundColor: Colors.white.withValues(alpha: 0.2),
-                  child: CustomText(text: 'RS', fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.white),
+                  child: CustomText(
+                    text: 'RS',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(width: 14.w),
@@ -117,11 +121,23 @@ class _ProfilescreenState extends State<Profilescreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomTitleText(text: 'Rahul Sharma', fontSize: 17.sp, color: Colors.white),
+                    CustomTitleText(
+                      text: 'Rahul Sharma',
+                      fontSize: 17.sp,
+                      color: Colors.white,
+                    ),
                     SizedBox(height: 2.h),
-                    CustomSubText(text: 'Senior Packer · E01', fontSize: 13.sp, color: Colors.white.withValues(alpha: 0.75)),
+                    CustomSubText(
+                      text: 'Senior Packer · E01',
+                      fontSize: 13.sp,
+                      color: Colors.white.withValues(alpha: 0.75),
+                    ),
                     SizedBox(height: 2.h),
-                    CustomSubText(text: '+91 98110 23401', fontSize: 13.sp, color: Colors.white.withValues(alpha: 0.75)),
+                    CustomSubText(
+                      text: '+91 98110 23401',
+                      fontSize: 13.sp,
+                      color: Colors.white.withValues(alpha: 0.75),
+                    ),
                   ],
                 ),
               ),
@@ -146,7 +162,12 @@ class _ProfilescreenState extends State<Profilescreen> {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                CustomText(text: 'Shree Textiles', fontSize: 14.sp, fontWeight: FontWeight.w600, color: Colors.white),
+                CustomText(
+                  text: 'Shree Textiles',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ],
             ),
           ),
@@ -201,7 +222,12 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: AppColors.activeBadgeBackground,
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: CustomText(text: 'ST', fontSize: 14.sp, fontWeight: FontWeight.bold, color: AppColors.activeBadgeText),
+            child: CustomText(
+              text: 'ST',
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.activeBadgeText,
+            ),
           ),
           SizedBox(width: 14.w),
           Expanded(
@@ -219,50 +245,11 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: AppColors.activeBadgeBackground,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: CustomText(text: 'Active', fontSize: 13.sp, fontWeight: FontWeight.w600, color: AppColors.activeBadgeText),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildViewAsCard() {
-    return Container(
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomTitleText(text: 'View the app as', fontSize: 15.sp),
-          SizedBox(height: 12.h),
-          Container(
-            padding: EdgeInsets.all(4.r),
-            decoration: BoxDecoration(
-              color: AppColors.fieldFill,
-              borderRadius: BorderRadius.circular(30.r),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildViewAsOption(
-                    icon: Icons.person_outline,
-                    label: 'Employee',
-                    selected: _isEmployeeView,
-                    onTap: () { AppHaptics.tap(); setState(() => _isEmployeeView = true); },
-                  ),
-                ),
-                Expanded(
-                  child: _buildViewAsOption(
-                    icon: Icons.emoji_events_outlined,
-                    label: 'Admin',
-                    selected: !_isEmployeeView,
-                    onTap: () { AppHaptics.tap(); setState(() => _isEmployeeView = false); },
-                  ),
-                ),
-              ],
+            child: CustomText(
+              text: 'Active',
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.activeBadgeText,
             ),
           ),
         ],
@@ -277,7 +264,10 @@ class _ProfilescreenState extends State<Profilescreen> {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: () { AppHaptics.tap(); onTap(); },
+      onTap: () {
+        AppHaptics.tap();
+        onTap();
+      },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
@@ -302,7 +292,12 @@ class _ProfilescreenState extends State<Profilescreen> {
               color: selected ? Colors.black87 : AppColors.hintGrey,
             ),
             SizedBox(width: 6.w),
-            CustomText(text: label, fontSize: 14.sp, fontWeight: FontWeight.w600, color: selected ? Colors.black87 : AppColors.hintGrey),
+            CustomText(
+              text: label,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: selected ? Colors.black87 : AppColors.hintGrey,
+            ),
           ],
         ),
       ),
@@ -313,7 +308,9 @@ class _ProfilescreenState extends State<Profilescreen> {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
-        onPressed: () { AppHaptics.tap(); },
+        onPressed: () {
+          AppHaptics.tap();
+        },
         style: OutlinedButton.styleFrom(
           backgroundColor: AppColors.card,
           padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -327,7 +324,12 @@ class _ProfilescreenState extends State<Profilescreen> {
           children: [
             Icon(Icons.logout, color: AppColors.logoutRed, size: 18.sp),
             SizedBox(width: 8.w),
-            CustomText(text: 'Log out', fontSize: 15.sp, fontWeight: FontWeight.bold, color: AppColors.logoutRed),
+            CustomText(
+              text: 'Log out',
+              fontSize: 15.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.logoutRed,
+            ),
           ],
         ),
       ),
