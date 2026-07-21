@@ -42,7 +42,10 @@ class _OrderscreenState extends State<Orderscreen> {
             SizedBox(height: 16.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomSubText(text: '${orders.length} orders', fontSize: 14.sp),
+              child: CustomSubText(
+                text: '${orders.length} orders',
+                fontSize: 14.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             Expanded(
@@ -50,8 +53,7 @@ class _OrderscreenState extends State<Orderscreen> {
                 padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
                 itemCount: orders.length,
                 separatorBuilder: (_, _) => SizedBox(height: 12.h),
-                itemBuilder: (context, index) =>
-                    _buildOrderCard(orders[index]),
+                itemBuilder: (context, index) => _buildOrderCard(orders[index]),
               ),
             ),
           ],
@@ -73,12 +75,18 @@ class _OrderscreenState extends State<Orderscreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTitleText(text: 'All orders', fontSize: 19.sp),
-            CustomSubText(text: '${OrderModel.sampleOrders.length} total', fontSize: 13.sp),
+            CustomSubText(
+              text: '${OrderModel.sampleOrders.length} total',
+              fontSize: 13.sp,
+            ),
           ],
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, AppRoutes.notification); },
+          onTap: () {
+            AppHaptics.tap();
+            Navigator.pushNamed(context, AppRoutes.notification);
+          },
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -137,93 +145,119 @@ class _OrderscreenState extends State<Orderscreen> {
               ),
             ),
           ),
-          Icon(Icons.filter_alt_outlined, size: 20.sp, color: AppColors.hintGrey),
+          Icon(
+            Icons.filter_alt_outlined,
+            size: 20.sp,
+            color: AppColors.hintGrey,
+          ),
         ],
       ),
     );
   }
 
   Widget _buildOrderCard(OrderModel order) {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                width: 56.w,
-                height: 56.w,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: order.iconBackground,
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Icon(
-                  order.productIcon,
-                  size: 26.sp,
-                  color: order.iconColor,
-                ),
-              ),
-              Positioned(
-                bottom: -2.h,
-                right: -2.w,
-                child: CircleAvatar(
-                  radius: 10.r,
-                  backgroundColor: const Color(0xFF3FAE5C),
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, "/orderDetailScreen"),
+      child: Container(
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 56.w,
+                  height: 56.w,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: order.iconBackground,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
                   child: Icon(
-                    Icons.chat_bubble,
-                    size: 10.sp,
-                    color: Colors.white,
+                    order.productIcon,
+                    size: 26.sp,
+                    color: order.iconColor,
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: CustomTitleText(text: order.customerName, fontSize: 15.sp),
+                Positioned(
+                  bottom: -2.h,
+                  right: -2.w,
+                  child: CircleAvatar(
+                    radius: 10.r,
+                    backgroundColor: const Color(0xFF3FAE5C),
+                    child: Icon(
+                      Icons.chat_bubble,
+                      size: 10.sp,
+                      color: Colors.white,
                     ),
-                    _buildStatusPill(order),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                CustomSubText(text: '${order.product} · ${order.pieces} pcs · ${order.orderNumber}', fontSize: 13.sp),
-                SizedBox(height: 10.h),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 10.r,
-                      backgroundColor: order.assigneeColor,
-                      child: CustomText(text: order.assigneeInitials, fontSize: 9.sp, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    SizedBox(width: 6.w),
-                    Expanded(
-                      child: CustomText(text: order.assigneeName, fontSize: 13.sp),
-                    ),
-                    if (order.isUrgent) ...[
-                      _buildUrgentPill(),
-                      SizedBox(width: 8.w),
-                    ],
-                    CustomSubText(text: order.time, fontSize: 12.sp, color: AppColors.hintGrey),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: CustomTitleText(
+                          text: order.customerName,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                      _buildStatusPill(order),
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  CustomSubText(
+                    text:
+                        '${order.product} · ${order.pieces} pcs · ${order.orderNumber}',
+                    fontSize: 13.sp,
+                  ),
+                  SizedBox(height: 10.h),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 10.r,
+                        backgroundColor: order.assigneeColor,
+                        child: CustomText(
+                          text: order.assigneeInitials,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: CustomText(
+                          text: order.assigneeName,
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      if (order.isUrgent) ...[
+                        _buildUrgentPill(),
+                        SizedBox(width: 8.w),
+                      ],
+                      CustomSubText(
+                        text: order.time,
+                        fontSize: 12.sp,
+                        color: AppColors.hintGrey,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -235,7 +269,12 @@ class _OrderscreenState extends State<Orderscreen> {
         color: order.statusBackground,
         borderRadius: BorderRadius.circular(20.r),
       ),
-      child: CustomText(text: order.status, fontSize: 12.sp, fontWeight: FontWeight.w600, color: order.statusColor),
+      child: CustomText(
+        text: order.status,
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w600,
+        color: order.statusColor,
+      ),
     );
   }
 
@@ -255,7 +294,12 @@ class _OrderscreenState extends State<Orderscreen> {
             color: AppColors.logoutRed,
           ),
           SizedBox(width: 3.w),
-          CustomText(text: 'Urgent', fontSize: 11.sp, fontWeight: FontWeight.w600, color: AppColors.logoutRed),
+          CustomText(
+            text: 'Urgent',
+            fontSize: 11.sp,
+            fontWeight: FontWeight.w600,
+            color: AppColors.logoutRed,
+          ),
         ],
       ),
     );

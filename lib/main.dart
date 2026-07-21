@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tusharsirproject/CustomerdatabseScreen/customerdatabasescreen.dart';
+import 'package:tusharsirproject/OrderDetailScreen/orderDetailScreen.dart';
 import 'package:tusharsirproject/Screens/AddOrderManual/AddOrderManualscreen.dart';
 import 'package:tusharsirproject/Screens/Home/Homescreen.dart';
 import 'package:tusharsirproject/Screens/Login/Loginscreen.dart';
@@ -40,6 +41,8 @@ class MyApp extends StatelessWidget {
             "/profilescreen": (context) => Profilescreen(),
             "/notificationscreen": (context) => Notificationscreen(),
             "/customerDatabaseScreen": (context) => CustomerDatabaseScreen(),
+
+            "/orderDetailScreen": (context) => OrderDetailScreen(),
           },
         );
       },
