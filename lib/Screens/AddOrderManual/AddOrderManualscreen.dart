@@ -51,11 +51,29 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
   @override
   void initState() {
     super.initState();
+    _phoneController.text = '+91';
     _customerNameController.addListener(_onFormChanged);
+    _phoneController.addListener(_onPhoneChanged);
     _quantityController.addListener(_onFormChanged);
   }
 
   void _onFormChanged() => setState(() {});
+
+  void _onPhoneChanged() {
+    final text = _phoneController.text;
+    if (!text.startsWith('+91')) {
+      _phoneController.text = '+91';
+      _phoneController.selection = TextSelection.fromPosition(TextPosition(offset: _phoneController.text.length));
+      return;
+    }
+    final digits = text.substring(3).replaceAll(RegExp(r'\D'), '');
+    final clamped = digits.length > 10 ? digits.substring(0, 10) : digits;
+    final corrected = '+91$clamped';
+    if (corrected != text) {
+      _phoneController.text = corrected;
+      _phoneController.selection = TextSelection.fromPosition(TextPosition(offset: corrected.length));
+    }
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(
@@ -132,6 +150,7 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
   @override
   void dispose() {
     _customerNameController.dispose();
+    _phoneController.removeListener(_onPhoneChanged);
     _phoneController.dispose();
     _quantityController.dispose();
     _productDetailsController.dispose();
