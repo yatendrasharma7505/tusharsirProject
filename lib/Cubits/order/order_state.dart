@@ -7,12 +7,23 @@ class OrderState {
   final Map<String, dynamic>? selectedOrder;
   final String? errorMessage;
 
+  // Manual "add order" flow (AddOrderManualscreen) - kept separate from the
+  // list/detail fields above so submitting a new order never clobbers them.
+  final bool creating;
+  final Map<String, dynamic>? createdOrder;
+  final Map<String, dynamic>? duplicateOrder;
+  final String? createError;
+
   const OrderState({
     this.status = OrderStatus.initial,
     this.orders,
     this.pagination,
     this.selectedOrder,
     this.errorMessage,
+    this.creating = false,
+    this.createdOrder,
+    this.duplicateOrder,
+    this.createError,
   });
 
   OrderState copyWith({
@@ -21,6 +32,10 @@ class OrderState {
     Map<String, dynamic>? pagination,
     Map<String, dynamic>? selectedOrder,
     String? errorMessage,
+    bool? creating,
+    Map<String, dynamic>? createdOrder,
+    Map<String, dynamic>? duplicateOrder,
+    String? createError,
   }) {
     return OrderState(
       status: status ?? this.status,
@@ -28,6 +43,10 @@ class OrderState {
       pagination: pagination ?? this.pagination,
       selectedOrder: selectedOrder ?? this.selectedOrder,
       errorMessage: errorMessage,
+      creating: creating ?? this.creating,
+      createdOrder: createdOrder,
+      duplicateOrder: duplicateOrder,
+      createError: createError,
     );
   }
 }

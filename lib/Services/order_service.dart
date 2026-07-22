@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'api_client.dart';
 
@@ -30,8 +31,21 @@ class OrderService {
     return response.data['order'] as Map<String, dynamic>;
   }
 
-  Future<Map<String, dynamic>> createOrder(Map<String, dynamic> data) async {
-    final response = await _dio.post('/orders', data: data);
+  Future<Map<String, dynamic>> createOrder(
+    Map<String, dynamic> data, {
+    File? photo,
+    bool force = false,
+  }) async {
+    final fields = <String, dynamic>{...data, 'force': force.toString()};
+
+    final payload = photo != null
+        ? FormData.fromMap({
+            ...fields,
+            'photo': await MultipartFile.fromFile(photo.path, filename: photo.path.split(Platform.pathSeparator).last),
+          })
+        : fields;
+
+    final response = await _dio.post('/orders', data: payload);
     return response.data['order'] as Map<String, dynamic>;
   }
 

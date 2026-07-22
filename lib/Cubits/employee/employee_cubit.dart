@@ -21,6 +21,19 @@ class EmployeeCubit extends Cubit<EmployeeState> {
     }
   }
 
+  Future<void> loadTeam() async {
+    emit(state.copyWith(status: EmployeeStatus.loading, errorMessage: null));
+    try {
+      final team = await _service.listTeam();
+      emit(state.copyWith(status: EmployeeStatus.loaded, team: team));
+    } catch (e) {
+      emit(state.copyWith(
+        status: EmployeeStatus.error,
+        errorMessage: _parseError(e),
+      ));
+    }
+  }
+
   String _parseError(dynamic e) {
     if (e is DioException) {
       final data = e.response?.data;

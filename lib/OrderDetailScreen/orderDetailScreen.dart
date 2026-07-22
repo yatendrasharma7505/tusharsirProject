@@ -43,6 +43,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         final uploaderName = uploadedBy is Map<String, dynamic>
             ? (uploadedBy['name'] as String? ?? '')
             : '';
+        final assignedTo = order?['assignedTo'];
+        final assigneeName = assignedTo is Map<String, dynamic>
+            ? (assignedTo['name'] as String? ?? '')
+            : '';
 
         return Scaffold(
           backgroundColor: const Color(0xFFF0F5F9),
@@ -70,7 +74,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     children: [
                       _buildOrderHeader(customerName, orderNumber, status),
                       SizedBox(height: 28.h),
-                      _buildOrderDetailsCard(customerPhone, quantity, category, productDetails, uploaderName),
+                      _buildOrderDetailsCard(customerPhone, quantity, category, productDetails, uploaderName, assigneeName),
                       SizedBox(height: 28.h),
                       _buildStatusSection(status, _orderId ?? ''),
                     ],
@@ -126,7 +130,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     }
   }
 
-  Widget _buildOrderDetailsCard(String phone, dynamic quantity, String category, String productDetails, String uploaderName) {
+  Widget _buildOrderDetailsCard(
+    String phone,
+    dynamic quantity,
+    String category,
+    String productDetails,
+    String uploaderName,
+    String assigneeName,
+  ) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -143,6 +154,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           _buildDetailItem(Icons.inventory_2_outlined, 'Category', category),
           _buildDivider(),
           _buildDetailItem(Icons.description_outlined, 'Product details', productDetails),
+          _buildDivider(),
+          _buildDetailItem(Icons.assignment_ind_outlined, 'Assigned to', assigneeName.isNotEmpty ? assigneeName : 'Unassigned'),
           _buildDivider(),
           _buildDetailItem(Icons.person_outline, 'Uploaded by', uploaderName),
         ],

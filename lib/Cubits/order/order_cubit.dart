@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Services/order_service.dart';
@@ -53,6 +54,29 @@ class OrderCubit extends Cubit<OrderState> {
     } catch (e) {
       emit(state.copyWith(errorMessage: _parseError(e)));
     }
+  }
+
+  /// Manual "add order" flow. On a 409 duplicate-customer response, [duplicateOrder]
+  /// is populated instead of failing outright - call again with `force: true` to save anyway.
+  Future<void> createOrder(Map<String, dynamic> data, {File? photo, bool force = false}) async {
+    emit(state.copyWith(creating: true, createError: null, duplicateOrder: null));
+    try {
+      final order = await _service.createOrder(data, photo: photo, force: force);
+      emit(state.copyWith(creating: false, createdOrder: order));
+    } on DioException catch (e) {
+      final responseData = e.response?.data;
+      if (e.response?.statusCode == 409 && responseData is Map && responseData['duplicate'] == true) {
+        emit(state.copyWith(creating: false, duplicateOrder: responseData['order'] as Map<String, dynamic>?));
+      } else {
+        emit(state.copyWith(creating: false, createError: _parseError(e)));
+      }
+    } catch (e) {
+      emit(state.copyWith(creating: false, createError: e.toString()));
+    }
+  }
+
+  void resetCreateState() {
+    emit(state.copyWith(creating: false, createError: null, duplicateOrder: null, createdOrder: null));
   }
 
   String _parseError(dynamic e) {

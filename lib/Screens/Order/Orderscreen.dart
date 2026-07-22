@@ -164,9 +164,12 @@ class _OrderscreenState extends State<Orderscreen> {
     final category = order['category'] as String? ?? '';
     final status = order['status'] as String? ?? 'New';
     final priority = order['priority'] as String? ?? 'Normal';
+    // Show who the order is assigned to (who's actually responsible for it),
+    // falling back to the uploader for older/admin-created orders with no assignee.
+    final assignedTo = order['assignedTo'] as Map<String, dynamic>?;
     final uploadedBy = order['uploadedBy'] as Map<String, dynamic>?;
-    final uploaderName = uploadedBy?['name'] as String? ?? '';
-    final uploaderInitials = uploaderName.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
+    final assigneeName = (assignedTo ?? uploadedBy)?['name'] as String? ?? '';
+    final assigneeInitials = assigneeName.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
 
     final statusColors = _statusStyle(status);
     final isUrgent = priority == 'Urgent';
@@ -238,13 +241,13 @@ class _OrderscreenState extends State<Orderscreen> {
                       CircleAvatar(
                         radius: 10.r, backgroundColor: AppColors.primary,
                         child: CustomText(
-                          text: uploaderInitials, fontSize: 9.sp,
+                          text: assigneeInitials, fontSize: 9.sp,
                           fontWeight: FontWeight.bold, color: Colors.white,
                         ),
                       ),
                       SizedBox(width: 6.w),
                       Expanded(
-                        child: CustomText(text: uploaderName, fontSize: 13.sp),
+                        child: CustomText(text: assigneeName, fontSize: 13.sp),
                       ),
                       if (isUrgent) ...[
                         Container(

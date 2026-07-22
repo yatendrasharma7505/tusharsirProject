@@ -1,8 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../Cubits/auth/auth_cubit.dart';
+import '../../Cubits/category/category_cubit.dart';
+import '../../Cubits/category/category_state.dart';
+import '../../Cubits/employee/employee_cubit.dart';
+import '../../Cubits/employee/employee_state.dart';
+import '../../Cubits/order/order_cubit.dart';
+import '../../Cubits/order/order_state.dart';
 import '../../Utils/app_colors.dart';
 import '../../Widgets/custom_button.dart';
 import '../../Widgets/custom_text.dart';
@@ -24,17 +32,6 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
       TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  static const List<String> _categories = [
-    'Kurti',
-    'Saree',
-    'Bedsheet',
-    'T-Shirt',
-  ];
-  static const List<String> _assignees = [
-    'Rahul Sharma',
-    'Amit Verma',
-    'Priya Singh',
-  ];
   static const List<String> _statuses = [
     'New',
     'Accepted',
@@ -42,9 +39,9 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
     'Packed',
   ];
 
-  String _selectedCategory = _categories.first;
-  String _selectedAssignee = _assignees.first;
+  String? _selectedCategory;
   String _selectedStatus = _statuses.first;
+  String? _selectedAssigneeId;
   bool _isUrgent = false;
   File? _productPhoto;
 
@@ -55,6 +52,12 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
     _customerNameController.addListener(_onFormChanged);
     _phoneController.addListener(_onPhoneChanged);
     _quantityController.addListener(_onFormChanged);
+    // Only my own company's employees can ever show up here - the backend
+    // locks the roster (and the assignment itself) to the caller's company.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<EmployeeCubit>().loadTeam();
+      context.read<CategoryCubit>().loadCategories();
+    });
   }
 
   void _onFormChanged() => setState(() {});
@@ -147,6 +150,104 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
       _customerNameController.text.trim().isNotEmpty &&
       _quantityController.text.trim().isNotEmpty;
 
+  /// Prefers the previously-picked assignee if still in the roster, else
+  /// defaults to "myself", else the first active teammate.
+  String? _resolveAssigneeId(List<Map<String, dynamic>> team) {
+    if (_selectedAssigneeId != null && team.any((e) => e['id'] == _selectedAssigneeId)) {
+      return _selectedAssigneeId;
+    }
+    final currentUserId = context.read<AuthCubit>().state.user?['id'] as String?;
+    final self = team.where((e) => e['id'] == currentUserId);
+    if (self.isNotEmpty) return self.first['id'] as String;
+    return team.isNotEmpty ? team.first['id'] as String : null;
+  }
+
+  /// Prefers the previously-picked category if it's still in the (admin-managed) list.
+  String? _resolveCategory(List<String> categories) {
+    if (_selectedCategory != null && categories.contains(_selectedCategory)) {
+      return _selectedCategory;
+    }
+    return categories.isNotEmpty ? categories.first : null;
+  }
+
+  Future<void> _submit({bool force = false}) async {
+    if (!_isFormValid) return;
+    final quantity = int.tryParse(_quantityController.text.trim());
+    if (quantity == null || quantity <= 0) {
+      _showSnack('Enter a valid quantity', error: true);
+      return;
+    }
+
+    final team = (context.read<EmployeeCubit>().state.team ?? [])
+        .cast<Map<String, dynamic>>()
+        .where((e) => e['isActive'] == true)
+        .toList();
+    final assigneeId = _resolveAssigneeId(team);
+
+    final categories = (context.read<CategoryCubit>().state.categories ?? [])
+        .cast<Map<String, dynamic>>()
+        .where((c) => c['isActive'] == true)
+        .map((c) => c['name'] as String)
+        .toList();
+    final category = _resolveCategory(categories);
+    if (category == null) {
+      _showSnack('Add a category in the admin panel before creating orders', error: true);
+      return;
+    }
+
+    final payload = <String, dynamic>{
+      'customerName': _customerNameController.text.trim(),
+      'customerPhone': _phoneController.text.trim(),
+      'quantity': quantity,
+      'category': category,
+      'productDetails': _productDetailsController.text.trim(),
+      'notes': _noteController.text.trim(),
+      'priority': _isUrgent ? 'Urgent' : 'Normal',
+      'status': _selectedStatus,
+      'source': 'manual',
+      if (assigneeId != null) 'assignedTo': assigneeId,
+    };
+
+    AppHaptics.tap();
+    context.read<OrderCubit>().createOrder(payload, photo: _productPhoto, force: force);
+  }
+
+  void _showSnack(String message, {bool error = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: error ? AppColors.logoutRed : AppColors.primary),
+    );
+  }
+
+  void _showDuplicateDialog(Map<String, dynamic> duplicate) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppColors.card,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+        title: CustomTitleText(text: 'Possible duplicate', fontSize: 17.sp),
+        content: CustomText(
+          text:
+              '${duplicate['customerName'] ?? 'This customer'} already has a recent order'
+              '${duplicate['orderNumber'] != null ? ' (${duplicate['orderNumber']})' : ''}. Save anyway?',
+          fontSize: 14.sp,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: CustomText(text: 'Cancel', color: AppColors.labelGrey),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              _submit(force: true);
+            },
+            child: CustomText(text: 'Save anyway', color: AppColors.logoutRed, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _customerNameController.dispose();
@@ -160,126 +261,125 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.r),
-              child: _buildTopBar(context),
-            ),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
-                children: [
-                  _buildPhotoUpload(),
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    icon: Icons.person_outline,
-                    label: 'Customer name',
-                    hint: 'e.g. Rajesh Kumar',
-                    controller: _customerNameController,
-                    bordered: true,
-                  ),
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    icon: Icons.phone_outlined,
-                    label: 'WhatsApp / mobile',
-                    hint: '+91...',
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    bordered: true,
-                  ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          icon: Icons.tag,
-                          label: 'Quantity (pcs)',
-                          hint: '50',
-                          controller: _quantityController,
-                          keyboardType: TextInputType.number,
-                          bordered: true,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: _buildDropdownField(
-                          icon: Icons.inventory_2_outlined,
-                          label: 'Category',
-                          value: _selectedCategory,
-                          options: _categories,
-                          onChanged: (value) =>
-                              setState(() => _selectedCategory = value),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    icon: Icons.description_outlined,
-                    label: 'Product details',
-                    hint: 'Sizes, colours, fabric...',
-                    controller: _productDetailsController,
-                    maxLines: 4,
-                    bordered: true,
-                  ),
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    icon: Icons.edit_note,
-                    label: 'Order note',
-                    hint: 'Optional internal note',
-                    controller: _noteController,
-                    bordered: true,
-                  ),
-                  SizedBox(height: 20.h),
-                  _buildSectionLabel(
-                    Icons.local_fire_department_outlined,
-                    'Priority',
-                  ),
-                  SizedBox(height: 8.h),
-                  _buildPriorityToggle(),
-                  SizedBox(height: 20.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _buildDropdownField(
-                          icon: Icons.person_outline,
-                          label: 'Assigned to',
-                          value: _selectedAssignee,
-                          options: _assignees,
-                          onChanged: (value) =>
-                              setState(() => _selectedAssignee = value),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: _buildDropdownField(
-                          icon: Icons.layers_outlined,
-                          label: 'Status',
-                          value: _selectedStatus,
-                          options: _statuses,
-                          onChanged: (value) =>
-                              setState(() => _selectedStatus = value),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24.h),
-                  CustomButton(
-                    label: 'Save order',
-                    leadingIcon: Icons.save_outlined,
-                    enabled: _isFormValid,
-                    onPressed: () { AppHaptics.tap(); Navigator.of(context).maybePop(); },
-                  ),
-                ],
+    return BlocListener<OrderCubit, OrderState>(
+      listenWhen: (previous, current) => previous.creating && !current.creating,
+      listener: (context, state) {
+        if (state.createdOrder != null) {
+          _showSnack('Order saved');
+          Navigator.of(context).pop(true);
+        } else if (state.duplicateOrder != null) {
+          _showDuplicateDialog(state.duplicateOrder!);
+        } else if (state.createError != null) {
+          _showSnack(state.createError!, error: true);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16.r),
+                child: _buildTopBar(context),
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+                  children: [
+                    _buildPhotoUpload(),
+                    SizedBox(height: 20.h),
+                    CustomTextField(
+                      icon: Icons.person_outline,
+                      label: 'Customer name',
+                      hint: 'e.g. Rajesh Kumar',
+                      controller: _customerNameController,
+                      bordered: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomTextField(
+                      icon: Icons.phone_outlined,
+                      label: 'WhatsApp / mobile',
+                      hint: '+91...',
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                      bordered: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            icon: Icons.tag,
+                            label: 'Quantity (pcs)',
+                            hint: '50',
+                            controller: _quantityController,
+                            keyboardType: TextInputType.number,
+                            bordered: true,
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(child: _buildCategoryField()),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomTextField(
+                      icon: Icons.description_outlined,
+                      label: 'Product details',
+                      hint: 'Sizes, colours, fabric...',
+                      controller: _productDetailsController,
+                      maxLines: 4,
+                      bordered: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomTextField(
+                      icon: Icons.edit_note,
+                      label: 'Order note',
+                      hint: 'Optional internal note',
+                      controller: _noteController,
+                      bordered: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    _buildSectionLabel(
+                      Icons.local_fire_department_outlined,
+                      'Priority',
+                    ),
+                    SizedBox(height: 8.h),
+                    _buildPriorityToggle(),
+                    SizedBox(height: 20.h),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: _buildAssigneeField()),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: _buildDropdownField(
+                            icon: Icons.layers_outlined,
+                            label: 'Status',
+                            value: _selectedStatus,
+                            options: _statuses,
+                            onChanged: (value) =>
+                                setState(() => _selectedStatus = value),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24.h),
+                    BlocBuilder<OrderCubit, OrderState>(
+                      builder: (context, state) {
+                        return CustomButton(
+                          label: state.creating ? 'Saving...' : 'Save order',
+                          leadingIcon: Icons.save_outlined,
+                          enabled: _isFormValid && !state.creating,
+                          onPressed: () => _submit(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -445,6 +545,149 @@ class _AddOrderManualscreenState extends State<AddOrderManualscreen> {
           ],
         ),
       ),
+    );
+  }
+
+  /// Company-scoped "Assigned to" picker - the roster comes from GET
+  /// /employees, which the backend locks to the current user's own company.
+  Widget _buildAssigneeField() {
+    return BlocBuilder<EmployeeCubit, EmployeeState>(
+      builder: (context, state) {
+        final team = (state.team ?? [])
+            .cast<Map<String, dynamic>>()
+            .where((e) => e['isActive'] == true)
+            .toList();
+        final stillLoading = state.status == EmployeeStatus.loading && state.team == null;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionLabel(Icons.person_outline, 'Assigned to'),
+            SizedBox(height: 8.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              decoration: BoxDecoration(
+                color: AppColors.fieldFill,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: AppColors.borderGrey),
+              ),
+              child: stillLoading
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 14.sp,
+                            height: 14.sp,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.labelGrey),
+                          ),
+                          SizedBox(width: 10.w),
+                          CustomSubText(text: 'Loading team...', fontSize: 13.sp),
+                        ],
+                      ),
+                    )
+                  : team.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(vertical: 14.h),
+                          child: CustomSubText(text: 'No teammates yet', fontSize: 13.sp),
+                        )
+                      : DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _resolveAssigneeId(team),
+                            isExpanded: true,
+                            icon: Icon(Icons.keyboard_arrow_down, color: AppColors.labelGrey),
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            items: team.map((e) {
+                              final currentUserId = context.read<AuthCubit>().state.user?['id'] as String?;
+                              final isSelf = e['id'] == currentUserId;
+                              final name = e['name'] as String? ?? 'Unnamed';
+                              return DropdownMenuItem<String>(
+                                value: e['id'] as String,
+                                child: CustomText(text: isSelf ? '$name (You)' : name),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) setState(() => _selectedAssigneeId = value);
+                            },
+                          ),
+                        ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Category picker - sourced from the admin-managed list (GET /categories),
+  /// not a hardcoded list, so it always matches what the admin panel offers.
+  Widget _buildCategoryField() {
+    return BlocBuilder<CategoryCubit, CategoryState>(
+      builder: (context, state) {
+        final categories = (state.categories ?? [])
+            .cast<Map<String, dynamic>>()
+            .where((c) => c['isActive'] == true)
+            .map((c) => c['name'] as String)
+            .toList();
+        final stillLoading = state.status == CategoryStatus.loading && state.categories == null;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionLabel(Icons.inventory_2_outlined, 'Category'),
+            SizedBox(height: 8.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              decoration: BoxDecoration(
+                color: AppColors.fieldFill,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: AppColors.borderGrey),
+              ),
+              child: stillLoading
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 14.sp,
+                            height: 14.sp,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.labelGrey),
+                          ),
+                          SizedBox(width: 10.w),
+                          CustomSubText(text: 'Loading...', fontSize: 13.sp),
+                        ],
+                      ),
+                    )
+                  : categories.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(vertical: 14.h),
+                          child: CustomSubText(text: 'No categories yet', fontSize: 13.sp),
+                        )
+                      : DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _resolveCategory(categories),
+                            isExpanded: true,
+                            icon: Icon(Icons.keyboard_arrow_down, color: AppColors.labelGrey),
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            items: categories
+                                .map((name) => DropdownMenuItem<String>(value: name, child: CustomText(text: name)))
+                                .toList(),
+                            onChanged: (value) {
+                              if (value != null) setState(() => _selectedCategory = value);
+                            },
+                          ),
+                        ),
+            ),
+          ],
+        );
+      },
     );
   }
 

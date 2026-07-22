@@ -11,6 +11,7 @@ import 'package:tusharsirproject/Screens/Profile/Profilescreen.dart';
 import 'package:tusharsirproject/Screens/Rank/Rankscreen.dart';
 import 'package:tusharsirproject/bottom_bar.dart';
 import 'Cubits/auth/auth_cubit.dart';
+import 'Cubits/category/category_cubit.dart';
 import 'Cubits/company/company_cubit.dart';
 import 'Cubits/dashboard/dashboard_cubit.dart';
 import 'Cubits/employee/employee_cubit.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (context) => NotificationCubit()),
             BlocProvider(create: (context) => EmployeeCubit()),
             BlocProvider(create: (context) => CompanyCubit()),
+            BlocProvider(create: (context) => CategoryCubit()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

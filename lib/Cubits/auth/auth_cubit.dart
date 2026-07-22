@@ -28,6 +28,32 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  /// Returns { exists, needsPasswordSetup, name } without changing auth state -
+  /// used by the login screen to decide which fields to show next.
+  Future<Map<String, dynamic>> checkIdentifier(String identifier) {
+    return _authService.checkIdentifier(identifier);
+  }
+
+  Future<void> setPassword(String identifier, String password, String confirmPassword) async {
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
+
+    try {
+      final user = await _authService.setPassword(identifier, password, confirmPassword);
+      final token = await _authService.getToken();
+      await _authService.saveUser(user);
+      emit(state.copyWith(
+        status: AuthStatus.authenticated,
+        user: user,
+        token: token,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: _parseError(e),
+      ));
+    }
+  }
+
   Future<void> checkAuth() async {
     final user = await _authService.getUser();
     final token = await _authService.getToken();

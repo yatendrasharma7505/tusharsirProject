@@ -6,6 +6,7 @@ import '../../Cubits/auth/auth_cubit.dart';
 import '../../Cubits/auth/auth_state.dart';
 import '../../Cubits/dashboard/dashboard_cubit.dart';
 import '../../Cubits/dashboard/dashboard_state.dart';
+import '../../Cubits/order/order_cubit.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/app_haptics.dart';
 import '../../Utils/app_routes.dart';
@@ -333,7 +334,15 @@ class _HomescreenState extends State<Homescreen> {
         SizedBox(width: 10.w),
         Expanded(
           child: GestureDetector(
-            onTap: () { AppHaptics.tap(); Navigator.pushNamed(context, "/addOrderManualscreen"); },
+            onTap: () async {
+              AppHaptics.tap();
+              final created = await Navigator.pushNamed(context, "/addOrderManualscreen");
+              if (created == true && mounted) {
+                final userId = this.context.read<AuthCubit>().state.user?['id'] as String?;
+                this.context.read<OrderCubit>().loadOrders(employee: userId);
+                this.context.read<DashboardCubit>().loadDashboard();
+              }
+            },
             child: _buildActionCard(
               background: const Color(0xFFF4F9F7), border: const Color(0xFFDCEEE4),
               iconBackground: AppColors.primary, icon: Icons.add,

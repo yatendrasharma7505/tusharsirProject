@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'Cubits/auth/auth_cubit.dart';
+import 'Cubits/dashboard/dashboard_cubit.dart';
+import 'Cubits/order/order_cubit.dart';
 import 'Screens/Home/Homescreen.dart';
 import 'Screens/Order/Orderscreen.dart';
 import 'Screens/Profile/Profilescreen.dart';
@@ -78,9 +82,14 @@ class _BottomBarState extends State<BottomBar> {
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 AppHaptics.tap();
-                Navigator.pushNamed(context, "/addOrderManualscreen");
+                final created = await Navigator.pushNamed(context, "/addOrderManualscreen");
+                if (created == true && mounted) {
+                  final userId = context.read<AuthCubit>().state.user?['id'] as String?;
+                  context.read<OrderCubit>().loadOrders(employee: userId);
+                  context.read<DashboardCubit>().loadDashboard();
+                }
               },
               child: _buildAddButton(),
             ),
